@@ -21,6 +21,7 @@ import db.sqlite.SQLiteManager;
 import java.sql.*;
 
 public class Main {
+    //PRUEBA PUSH PARA VER SI SE PUEDE HACER PULL -  RICARDO ORIOL
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Each time dates are added
 																							// this is the format that
 																							// is needed.
