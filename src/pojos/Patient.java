@@ -54,7 +54,7 @@ public class Patient implements Serializable {
     //	   <medicine></medicine>
     //   </medicines>
     // </dog>
-
+/*
     private List<Ecg> ecg;
 
     public Patient(Integer id, String Fullname, Integer age, Float weight, Float height, String gender, Emg emg, Ecg ecg, List<Ecg> ecg) {

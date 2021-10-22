@@ -14,14 +14,19 @@ import db.interfaces.DogManager;
 import db.interfaces.MedicineManager;
 **/
 public class SQLiteManager implements DBManager {
+    
+    public static void main(String[] args) {
+        SQLiteManager test = new SQLiteManager();
+        test.connect();
+        int i = test.getLastId();
+        System.out.println(i);
+        
+    }
 
 	private Connection c;
 	private PatientManager patient;
 	private DoctorManager doctor;
 
-	public SQLiteManager() {
-		super();
-	}
 
 	@Override
 	public void connect() {
@@ -32,7 +37,7 @@ public class SQLiteManager implements DBManager {
                     c.createStatement().execute("PRAGMA foreign_keys=ON");
 			
 		    patient = new SQLitePatientManager(c);
-			
+
 		    doctor = new SQLiteDoctorManager(c);
 			
 		} catch (Exception e) {
