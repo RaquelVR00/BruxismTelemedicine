@@ -14,9 +14,9 @@ package pojos;
 
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
+//import java.sql.Date;
+//import java.util.ArrayList;
 
 
 public class Patient implements Serializable {
@@ -30,8 +30,6 @@ public class Patient implements Serializable {
 
     // In some cases, you might prefer to use @XmlAttribute
     private Integer id;
-    
-    private int anita;
 
     private String Fullname;
 
@@ -43,32 +41,30 @@ public class Patient implements Serializable {
 
     private String gender;
 
-    private Emg emg;
+    //private Emg emg;
 
-    private Ecg ecg;
+    //private Ecg ecg;
 
-    private Doctor doctor;
+    private List<Doctor> doctors;
     // <dog>
     //   <medicines> <-- Wrapper
     //	   <medicine></medicine>
     //	   <medicine></medicine>
     //   </medicines>
     // </dog>
-/*
-    private List<Ecg> ecg;
 
-    public Patient(Integer id, String Fullname, Integer age, Float weight, Float height, String gender, Emg emg, Ecg ecg, List<Ecg> ecg) {
-        super();
+    //private List<Ecg> ecg;
+
+    public Patient(Integer id, String Fullname, Integer age, Float weight, Float height, String gender) {
         this.id = id;
         this.Fullname = Fullname;
         this.age = age;
         this.weight = weight;
         this.height = height;
         this.gender = gender;
-        this.emg = emg;
-        this.ecg = ecg;
-        this.ecg = new ArrayList<Ecg>();
     }
+    
+    
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -98,104 +94,43 @@ public class Patient implements Serializable {
         return gender;
     }
 
-    public Emg getEmg() {
-        return emg;
+    public List<Doctor> getDoctors() {
+        return doctors;
     }
 
-    public Ecg getEcg() {
-        return ecg;
-    }
-
-    public List<Ecg> getEcg() {
-        return ecg;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
+    
         
 
-        public void setId(Integer id) {
-            this.id = id;
-        }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-        public void setFullname(String Fullname) {
-            this.Fullname = Fullname;
-        }
+    public void setFullname(String Fullname) {
+        this.Fullname = Fullname;
+    }
 
-        public void setAge(Integer age) {
-            this.age = age;
-        }
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 
-        public void setWeight(Float weight) {
-            this.weight = weight;
-        }
+    public void setWeight(Float weight) {
+        this.weight = weight;
+    }
 
-        public void setHeight(Float height) {
-            this.height = height;
-        }
+    public void setHeight(Float height) {
+        this.height = height;
+    }
 
-        public void setGender(String gender) {
-            this.gender = gender;
-        }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-        public void setEmg(Emg emg) {
-            this.emg = emg;
-        }
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
+    }
+    
+    
 
-        public void setEcg(Ecg ecg) {
-            this.ecg = ecg;
-        }
-
-/**
-	@Override
-	public String toString() {
-		if (medicines.isEmpty()) {
-			return "Dog [id=" + id + ", name=" + name + ", breed=" + breed + ", weight=" + weight + ", admissionDate="
-					+ admissionDate + ", releaseDate=" + releaseDate + "]";
-		} else {
-			return "Dog [id=" + id + ", name=" + name + ", breed=" + breed + ", weight=" + weight + ", admissionDate="
-					+ admissionDate + ", releaseDate=" + releaseDate + ", medicines=" + medicines + "]";
-		}
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Dog other = (Dog) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	public List<Medicine> getMedicines() {
-		return medicines;
-	}
-
-	public void setMedicines(List<Medicine> medicines) {
-		this.medicines = medicines;
-	}
-**/
 }
 
     
