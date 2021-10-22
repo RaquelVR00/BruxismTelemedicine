@@ -20,7 +20,7 @@ import pojos.Patient;
  *
  * @author RAQUEL
  */
-public class SQLiteEmgManager extends EmgManager {
+public class SQLiteEmgManager implements EmgManager {
     private Connection c;
 
     public SQLiteEmgManager(Connection c) {
@@ -89,6 +89,17 @@ public class SQLiteEmgManager extends EmgManager {
             prep.setString(1, emg.getName_emg());
             prep.setDate(2, emg.getStart_date());
             prep.setDate(3, emg.getFinish_date());
+            prep.executeUpdate();
+            prep.close();
+        } catch (SQLException e) {
+        }
+    }
+    
+    public void delete(Integer emg_id) {
+        try {
+            String sql = "DELETE FROM emg WHERE id=?";
+            PreparedStatement prep = c.prepareStatement(sql);
+            prep.setInt(1, emg_id);
             prep.executeUpdate();
             prep.close();
         } catch (SQLException e) {
