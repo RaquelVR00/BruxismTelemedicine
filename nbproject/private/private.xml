@@ -6,14 +6,15 @@
             <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/db/interfaces/DoctorManager.java</file>
             <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/pojos/Ecg.java</file>
             <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/db/interfaces/PatientManager.java</file>
+            <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/db/sqlite/SQLiteEmgManager.java</file>
+            <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/db/interfaces/EmgManager.java</file>
             <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/pojos/Patient.java</file>
             <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/pojos/Doctor.java</file>
             <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/db/sqlite/SQLitePatientManager.java</file>
-            <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/ui/Main.java</file>
             <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/pojos/Emg.java</file>
             <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/db/sqlite/SQLiteManager.java</file>
-            <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/db/interfaces/DBManager.java</file>
             <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/db/sqlite/SQLiteDoctorManager.java</file>
+            <file>file:/C:/Users/RAQUEL/Documents/NetBeansProjects/TelemedicinaRVR/ProyectoTelemedicina/Telemedicina/src/db/interfaces/DBManager.java</file>
         </group>
     </open-files>
 </project-private>

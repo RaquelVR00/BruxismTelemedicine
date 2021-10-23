@@ -14,6 +14,7 @@ public class SQLiteManager implements DBManager {
     private Connection c;
     private PatientManager patient;
     private DoctorManager doctor;
+    private EmgManager emg;
 
     public SQLiteManager() {
             super();
@@ -30,6 +31,8 @@ public class SQLiteManager implements DBManager {
             patient = new SQLitePatientManager(c);
 
             doctor = new SQLiteDoctorManager(c);
+            
+            emg = new SQLiteEmgManager(c);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,6 +66,11 @@ public class SQLiteManager implements DBManager {
             String sql3 = "CREATE TABLE doctorPatients " + "(doctorId     INTEGER  REFERENCES doctors(id) ON UPDATE CASCADE ON DELETE SET NULL, "
                             + "patientId     INTEGER  REFERENCES patients(id) ON UPDATE CASCADE ON DELETE SET NULL, " + "PRIMARY KEY(doctorid,patientId))";
             stmt1.executeUpdate(sql3);
+            stmt1 = c.createStatement();
+            String sql4 = "CREATE TABLE emg " + "(id     INTEGER  PRIMARY KEY AUTOINCREMENT,"
+                    + " name_emg   TEXT   NOT NULL," + "start_date DATE NOT NULL," + "finish_date DATE NOT NULL,"
+                    + ")";
+            stmt1.executeUpdate(sql4);
             // Insert some medicines
 
             stmt1.close();
@@ -83,6 +91,12 @@ public class SQLiteManager implements DBManager {
     public DoctorManager getDoctorManager() {
         return doctor;
     }
+    
+    
+    public EmgManager getEmgManager() {
+        return emg;
+    }
+
 
 //	@Override
 //	public int getLastId() {
