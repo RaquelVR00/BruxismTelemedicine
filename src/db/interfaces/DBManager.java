@@ -8,6 +8,12 @@ public interface DBManager {
 
     public PatientManager getPatientManager();
     public DoctorManager getDoctorManager();
+    public EmgManager getEmgManager();
+    public EcgManager getEcgManager();
+    
+    
+
+    
 
     //public int getLastId();
 
