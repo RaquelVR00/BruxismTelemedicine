@@ -15,6 +15,7 @@ public class SQLiteManager implements DBManager {
     private PatientManager patient;
     private DoctorManager doctor;
     private EmgManager emg;
+    private EcgManager ecg;
 
     public SQLiteManager() {
             super();
@@ -33,6 +34,8 @@ public class SQLiteManager implements DBManager {
             doctor = new SQLiteDoctorManager(c);
             
             emg = new SQLiteEmgManager(c);
+            
+            ecg = new SQLiteEcgManager(c);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,6 +74,11 @@ public class SQLiteManager implements DBManager {
                     + " name_emg   TEXT   NOT NULL," + "start_date DATE NOT NULL," + "finish_date DATE NOT NULL,"
                     + ")";
             stmt1.executeUpdate(sql4);
+            stmt1 = c.createStatement();
+            String sql5 = "CREATE TABLE ecg " + "(id     INTEGER  PRIMARY KEY AUTOINCREMENT,"
+                    + " name_ecg   TEXT   NOT NULL," + "start_date DATE NOT NULL," + "finish_date DATE NOT NULL,"
+                    + ")";
+            stmt1.executeUpdate(sql5);
             // Insert some medicines
 
             stmt1.close();
@@ -111,4 +119,28 @@ public class SQLiteManager implements DBManager {
 //            }
 //            return result;
 //	}
+
+    public PatientManager getPatient() {
+        return patient;
+    }
+
+    public void setPatient(PatientManager patient) {
+        this.patient = patient;
+    }
+
+    public DoctorManager getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(DoctorManager doctor) {
+        this.doctor = doctor;
+    }
+
+    public EmgManager getEmg() {
+        return emg;
+    }
+
+    public void setEmg(EmgManager emg) {
+        this.emg = emg;
+    }
 }
