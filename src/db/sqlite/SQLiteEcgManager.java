@@ -21,12 +21,14 @@ import pojos.Patient;
  * @author RAQUEL
  */
 public class SQLiteEcgManager implements EcgManager {
+
     private Connection c;
 
     public SQLiteEcgManager(Connection c) {
-            this.c = c;
+        this.c = c;
     }
-    
+
+    @Override
     public List<Ecg> searchByName(String name_ecg) {
         // TODO Auto-generated method stub
         // return null;
@@ -41,9 +43,8 @@ public class SQLiteEcgManager implements EcgManager {
                 String ecgName = rs.getString("name_ecg");
                 Date ecgStart_date = rs.getDate("start_date");
                 Date ecgFinish_date = rs.getDate("finish_date");
-           
 
-                Ecg newecg = new Ecg(id, ecgName, ecgStart_date, 
+                Ecg newecg = new Ecg(id, ecgName, ecgStart_date,
                         ecgFinish_date);
                 ecgsList.add(newecg);
             }
@@ -53,7 +54,7 @@ public class SQLiteEcgManager implements EcgManager {
         return ecgsList;
     }
 
-    
+    @Override
     public List<Ecg> searchByStartDate(Date start_date) {
         // TODO Auto-generated method stub
         // return null;
@@ -61,16 +62,15 @@ public class SQLiteEcgManager implements EcgManager {
         try {
             String sql = "SELECT * FROM ecg WHERE sart_date LIKE ?";
             PreparedStatement prep = c.prepareStatement(sql);
-            prep.setString(1, "%" + start_date+ "%");
+            prep.setString(1, "%" + start_date + "%");
             ResultSet rs = prep.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String ecgName = rs.getString("name_ecg");
                 Date ecgStart_date = rs.getDate("start_date");
                 Date ecgFinish_date = rs.getDate("finish_date");
-            
 
-                Ecg newecg = new Ecg(id, ecgName, ecgStart_date, 
+                Ecg newecg = new Ecg(id, ecgName, ecgStart_date,
                         ecgFinish_date);
                 ecgsList.add(newecg);
             }
@@ -80,6 +80,7 @@ public class SQLiteEcgManager implements EcgManager {
         return ecgsList;
     }
 
+    @Override
     public void add(Ecg ecg) {
         try {
             String sql = "INSERT INTO ecg (name_ecg, start_date, finish_date "
@@ -94,7 +95,8 @@ public class SQLiteEcgManager implements EcgManager {
         } catch (SQLException e) {
         }
     }
-    
+
+    @Override
     public void delete(Integer ecg_id) {
         try {
             String sql = "DELETE FROM ecg WHERE id=?";
@@ -106,5 +108,4 @@ public class SQLiteEcgManager implements EcgManager {
         }
     }
 
-    
 }

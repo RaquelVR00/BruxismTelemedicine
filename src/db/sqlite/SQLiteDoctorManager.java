@@ -13,11 +13,11 @@ import java.sql.Connection;
  * @author RAQUEL
  */
 public class SQLiteDoctorManager extends DoctorManager {
+
     private Connection c;
 
     public SQLiteDoctorManager(Connection c) {
-            this.c = c;
+        this.c = c;
     }
 
-    
 }

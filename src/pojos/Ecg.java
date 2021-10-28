@@ -7,14 +7,14 @@ package pojos;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  *
  * @author RAQUEL
  */
 public class Ecg implements Serializable {
-    
-    
+
     private Integer id;
     private String name_ecg;
     private Date start_date;
@@ -38,7 +38,6 @@ public class Ecg implements Serializable {
         this.finish_date = finish_date;
     }
 
- 
     public Date getStart_date() {
         return start_date;
     }
@@ -72,9 +71,45 @@ public class Ecg implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.name_ecg);
+        hash = 67 * hash + Objects.hashCode(this.start_date);
+        hash = 67 * hash + Objects.hashCode(this.finish_date);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Ecg other = (Ecg) obj;
+        if (!Objects.equals(this.name_ecg, other.name_ecg)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.start_date, other.start_date)) {
+            return false;
+        }
+        if (!Objects.equals(this.finish_date, other.finish_date)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "Ecg{" + "id=" + id + ", name_ecg=" + name_ecg + ", start_date=" + start_date + ", finish_date=" + finish_date + '}';
     }
 
-    
 }

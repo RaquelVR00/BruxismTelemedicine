@@ -21,12 +21,14 @@ import pojos.Patient;
  * @author RAQUEL
  */
 public class SQLiteEmgManager implements EmgManager {
+
     private Connection c;
 
     public SQLiteEmgManager(Connection c) {
-            this.c = c;
+        this.c = c;
     }
-    
+
+    @Override
     public List<Emg> searchByName(String name_emg) {
         // TODO Auto-generated method stub
         // return null;
@@ -41,9 +43,8 @@ public class SQLiteEmgManager implements EmgManager {
                 String emgName = rs.getString("name_emg");
                 Date emgStart_date = rs.getDate("start_date");
                 Date emgFinish_date = rs.getDate("finish_date");
-           
 
-                Emg newemg = new Emg(id, emgName, emgStart_date, 
+                Emg newemg = new Emg(id, emgName, emgStart_date,
                         emgFinish_date);
                 emgsList.add(newemg);
             }
@@ -53,7 +54,7 @@ public class SQLiteEmgManager implements EmgManager {
         return emgsList;
     }
 
-    
+    @Override
     public List<Emg> searchByStartDate(Date start_date) {
         // TODO Auto-generated method stub
         // return null;
@@ -61,16 +62,15 @@ public class SQLiteEmgManager implements EmgManager {
         try {
             String sql = "SELECT * FROM emg WHERE sart_date LIKE ?";
             PreparedStatement prep = c.prepareStatement(sql);
-            prep.setString(1, "%" + start_date+ "%");
+            prep.setString(1, "%" + start_date + "%");
             ResultSet rs = prep.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String emgName = rs.getString("name_emg");
                 Date emgStart_date = rs.getDate("start_date");
                 Date emgFinish_date = rs.getDate("finish_date");
-            
 
-                Emg newemg = new Emg(id, emgName, emgStart_date, 
+                Emg newemg = new Emg(id, emgName, emgStart_date,
                         emgFinish_date);
                 emgsList.add(newemg);
             }
@@ -80,6 +80,7 @@ public class SQLiteEmgManager implements EmgManager {
         return emgsList;
     }
 
+    @Override
     public void add(Emg emg) {
         try {
             String sql = "INSERT INTO emg (name_emg, start_date, finish_date "
@@ -94,7 +95,8 @@ public class SQLiteEmgManager implements EmgManager {
         } catch (SQLException e) {
         }
     }
-    
+
+    @Override
     public void delete(Integer emg_id) {
         try {
             String sql = "DELETE FROM emg WHERE id=?";
@@ -106,5 +108,4 @@ public class SQLiteEmgManager implements EmgManager {
         }
     }
 
-    
 }

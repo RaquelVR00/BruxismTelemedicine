@@ -13,8 +13,7 @@ import java.sql.Date;
  * @author RAQUEL
  */
 public class Emg implements Serializable {
-    
-    
+
     private Integer id;
     private String name_emg;
     private Date start_date;
@@ -38,7 +37,6 @@ public class Emg implements Serializable {
         this.finish_date = finish_date;
     }
 
- 
     public Date getStart_date() {
         return start_date;
     }
@@ -76,5 +74,4 @@ public class Emg implements Serializable {
         return "Emg{" + "id=" + id + ", name_emg=" + name_emg + ", start_date=" + start_date + ", finish_date=" + finish_date + '}';
     }
 
-    
 }

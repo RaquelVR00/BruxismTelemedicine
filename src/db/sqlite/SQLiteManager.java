@@ -1,4 +1,3 @@
-
 package db.sqlite;
 
 import db.interfaces.*;
@@ -18,7 +17,7 @@ public class SQLiteManager implements DBManager {
     private EcgManager ecg;
 
     public SQLiteManager() {
-            super();
+        super();
     }
 
     @Override
@@ -32,9 +31,9 @@ public class SQLiteManager implements DBManager {
             patient = new SQLitePatientManager(c);
 
             doctor = new SQLiteDoctorManager(c);
-            
+
             emg = new SQLiteEmgManager(c);
-            
+
             ecg = new SQLiteEcgManager(c);
 
         } catch (Exception e) {
@@ -67,7 +66,7 @@ public class SQLiteManager implements DBManager {
             stmt1.executeUpdate(sql2);
             stmt1 = c.createStatement(); // One to many dog-medicines table
             String sql3 = "CREATE TABLE doctorPatients " + "(doctorId     INTEGER  REFERENCES doctors(id) ON UPDATE CASCADE ON DELETE SET NULL, "
-                            + "patientId     INTEGER  REFERENCES patients(id) ON UPDATE CASCADE ON DELETE SET NULL, " + "PRIMARY KEY(doctorid,patientId))";
+                    + "patientId     INTEGER  REFERENCES patients(id) ON UPDATE CASCADE ON DELETE SET NULL, " + "PRIMARY KEY(doctorid,patientId))";
             stmt1.executeUpdate(sql3);
             stmt1 = c.createStatement();
             String sql4 = "CREATE TABLE emg " + "(id     INTEGER  PRIMARY KEY AUTOINCREMENT,"
@@ -99,12 +98,16 @@ public class SQLiteManager implements DBManager {
     public DoctorManager getDoctorManager() {
         return doctor;
     }
-    
-    
+
+    @Override
     public EmgManager getEmgManager() {
         return emg;
     }
 
+    @Override
+    public EcgManager getEcgManager() {
+        return ecg;
+    }
 
 //	@Override
 //	public int getLastId() {
@@ -119,7 +122,6 @@ public class SQLiteManager implements DBManager {
 //            }
 //            return result;
 //	}
-
     public PatientManager getPatient() {
         return patient;
     }
@@ -143,4 +145,5 @@ public class SQLiteManager implements DBManager {
     public void setEmg(EmgManager emg) {
         this.emg = emg;
     }
+
 }

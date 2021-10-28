@@ -19,6 +19,7 @@ import pojos.Patient;
  * @author RAQUEL
  */
 public class SQLitePatientManager implements PatientManager {
+
     private Connection c;
 
     public SQLitePatientManager(Connection c) {
@@ -43,7 +44,7 @@ public class SQLitePatientManager implements PatientManager {
                 Float patientHeight = rs.getFloat("height");
                 String gender = rs.getString("gender");
 
-                Patient newpatient = new Patient(id, patientName, patientAge, 
+                Patient newpatient = new Patient(id, patientName, patientAge,
                         patientWeight, patientHeight, gender);
                 patientsList.add(newpatient);
             }
@@ -70,7 +71,7 @@ public class SQLitePatientManager implements PatientManager {
         } catch (SQLException e) {
         }
     }
-    
+
     @Override
     public void delete(Integer patient_id) {
         try {
@@ -84,4 +85,3 @@ public class SQLitePatientManager implements PatientManager {
     }
 
 }
-
