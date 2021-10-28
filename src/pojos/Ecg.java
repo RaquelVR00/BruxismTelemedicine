@@ -70,6 +70,7 @@ public class Ecg implements Serializable {
         this.name_ecg = name_ecg;
     }
 
+    /*
     @Override
     public int hashCode() {
         int hash = 3;
@@ -105,7 +106,7 @@ public class Ecg implements Serializable {
             return false;
         }
         return true;
-    }
+    }*/
 
     @Override
     public String toString() {

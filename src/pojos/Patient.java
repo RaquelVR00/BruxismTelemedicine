@@ -134,6 +134,7 @@ public class Patient implements Serializable {
         this.emg = emg;
     }
 
+    /*
     @Override
     public int hashCode() {
         int hash = 7;
@@ -189,7 +190,7 @@ public class Patient implements Serializable {
             return false;
         }
         return true;
-    }
+    }*/
 
     @Override
     public String toString() {

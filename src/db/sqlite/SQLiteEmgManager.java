@@ -30,8 +30,6 @@ public class SQLiteEmgManager implements EmgManager {
 
     @Override
     public List<Emg> searchByName(String name_emg) {
-        // TODO Auto-generated method stub
-        // return null;
         List<Emg> emgsList = new ArrayList<>();
         try {
             String sql = "SELECT * FROM emg WHERE name_emg LIKE ?";
@@ -56,8 +54,6 @@ public class SQLiteEmgManager implements EmgManager {
 
     @Override
     public List<Emg> searchByStartDate(Date start_date) {
-        // TODO Auto-generated method stub
-        // return null;
         List<Emg> emgsList = new ArrayList<>();
         try {
             String sql = "SELECT * FROM emg WHERE sart_date LIKE ?";

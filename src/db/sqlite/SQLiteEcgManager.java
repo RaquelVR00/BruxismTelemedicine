@@ -30,8 +30,6 @@ public class SQLiteEcgManager implements EcgManager {
 
     @Override
     public List<Ecg> searchByName(String name_ecg) {
-        // TODO Auto-generated method stub
-        // return null;
         List<Ecg> ecgsList = new ArrayList<>();
         try {
             String sql = "SELECT * FROM ecg WHERE name_ecg LIKE ?";
@@ -56,8 +54,6 @@ public class SQLiteEcgManager implements EcgManager {
 
     @Override
     public List<Ecg> searchByStartDate(Date start_date) {
-        // TODO Auto-generated method stub
-        // return null;
         List<Ecg> ecgsList = new ArrayList<>();
         try {
             String sql = "SELECT * FROM ecg WHERE sart_date LIKE ?";

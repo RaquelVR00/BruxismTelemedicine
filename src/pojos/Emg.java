@@ -7,6 +7,7 @@ package pojos;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  *
@@ -68,6 +69,44 @@ public class Emg implements Serializable {
     public void setName_emg(String name_emg) {
         this.name_emg = name_emg;
     }
+
+    /*
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.name_emg);
+        hash = 67 * hash + Objects.hashCode(this.start_date);
+        hash = 67 * hash + Objects.hashCode(this.finish_date);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Emg other = (Emg) obj;
+        if (!Objects.equals(this.name_emg, other.name_emg)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.start_date, other.start_date)) {
+            return false;
+        }
+        if (!Objects.equals(this.finish_date, other.finish_date)) {
+            return false;
+        }
+        return true;
+    }*/
 
     @Override
     public String toString() {

@@ -28,8 +28,6 @@ public class SQLitePatientManager implements PatientManager {
 
     @Override
     public List<Patient> searchByName(String name) {
-        // TODO Auto-generated method stub
-        // return null;
         List<Patient> patientsList = new ArrayList<>();
         try {
             String sql = "SELECT * FROM patients WHERE Fullname LIKE ?";
