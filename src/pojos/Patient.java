@@ -7,28 +7,17 @@ package pojos;
 
 /**
  *
- * @author RAQUEL
+ *
  */
-
-
-
-
 import java.io.Serializable;
 import java.util.List;
-//import java.sql.Date;
-//import java.util.ArrayList;
-
+import java.sql.Date;
+import java.util.ArrayList;
 
 public class Patient implements Serializable {
 
-	// <element attribute="value">text or other elements</element>
-	/**
-	 * 
-	 */
     private static final long serialVersionUID = 6891296751142184360L;
 
-
-    // In some cases, you might prefer to use @XmlAttribute
     private Integer id;
 
     private String Fullname;
@@ -41,30 +30,22 @@ public class Patient implements Serializable {
 
     private String gender;
 
-    //private Emg emg;
-
-    //private Ecg ecg;
-
     private List<Doctor> doctors;
-    // <dog>
-    //   <medicines> <-- Wrapper
-    //	   <medicine></medicine>
-    //	   <medicine></medicine>
-    //   </medicines>
-    // </dog>
 
-    //private List<Ecg> ecg;
+    private List<Ecg> ecg;
 
-    public Patient(Integer id, String Fullname, Integer age, Float weight, Float height, String gender) {
+    private List<Emg> emg;
+
+    public Patient(Integer id, String Fullname, Integer age, Float weight, Float height, String gender, List<Ecg> ecg, List<Emg> emg) {
         this.id = id;
         this.Fullname = Fullname;
         this.age = age;
         this.weight = weight;
         this.height = height;
         this.gender = gender;
+        this.ecg = ecg;
+        this.emg = emg;
     }
-    
-    
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -98,8 +79,13 @@ public class Patient implements Serializable {
         return doctors;
     }
 
-    
-        
+    public List<Ecg> getEcg() {
+        return ecg;
+    }
+
+    public List<Emg> getEmg() {
+        return emg;
+    }
 
     public void setId(Integer id) {
         this.id = id;
@@ -128,10 +114,13 @@ public class Patient implements Serializable {
     public void setDoctors(List<Doctor> doctors) {
         this.doctors = doctors;
     }
-    
-    
+
+    public void setEcg(List<Ecg> ecg) {
+        this.ecg = ecg;
+    }
+
+    public void setEmg(List<Emg> emg) {
+        this.emg = emg;
+    }
 
 }
-
-    
-
