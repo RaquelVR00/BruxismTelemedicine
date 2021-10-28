@@ -5,10 +5,16 @@
  */
 package db.interfaces;
 
+import java.util.List;
+import pojos.Doctor;
+
 /**
  *
  * @author RAQUEL
  */
-public class DoctorManager {
-    
+public interface DoctorManager {
+
+    public List<Doctor> searchByName(String name);
+    public void add(Doctor doctor);
+    public void delete(Integer doctor_id);
 }

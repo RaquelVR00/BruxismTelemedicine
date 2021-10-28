@@ -54,8 +54,6 @@ public class Patient implements Serializable {
         this.weight = weight;
         this.height = height;
         this.gender = gender;
-        this.ecg = new ArrayList<>();
-        this.emg = new ArrayList<>();
     }
 
     public static long getSerialVersionUID() {
@@ -191,7 +189,6 @@ public class Patient implements Serializable {
         }
         return true;
     }*/
-
     @Override
     public String toString() {
         return "Patient{" + "id=" + id + ", Fullname=" + Fullname + ", age=" + age + ", weight=" + weight + ", height=" + height + ", gender=" + gender + ", doctors=" + doctors + '}';
