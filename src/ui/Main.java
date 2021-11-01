@@ -15,11 +15,14 @@ import java.util.List;
 import java.util.Scanner;
 
 import db.interfaces.*;
+import db.jpa.JPAUserManager;
 
 import pojos.*;
 import db.sqlite.SQLiteManager;
 
 import java.sql.*;
+import pojos.users.Role;
+import pojos.users.User;
 
 public class Main {
 
@@ -34,7 +37,7 @@ public class Main {
     private static DoctorManager doctorManager;
     private static EmgManager emgManager;
     private static EcgManager ecgManager;
-    //private static UserManager userManager;
+    private static UserManager userManager;
 
     //public static String numbers = "0123456789";
     //public static String caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -48,12 +51,12 @@ public class Main {
         emgManager = dbManager.getEmgManager();
         ecgManager = dbManager.getEcgManager();
         dbManager.createTables();
-        //userManager = new JPAUserManager();
-        //userManager.connect();
+        userManager = new JPAUserManager();
+        userManager.connect();
 
         //To initialize the bufferedReader
         reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Welcome to our data base!");
+        System.out.println("Welcome to our database!");
         // System.out.println("Do you want to create the tables?");
         while (true) {
             System.out.println("What do you want to do?");
@@ -70,7 +73,7 @@ public class Main {
                     wrongtext = false;
                 } catch (NumberFormatException ex) {
                     wrongtext = true;
-                    System.out.println("It's not a int, please enter a int.");
+                    System.out.println("It's not a int, please enter a int");
                 }
             } while (choice < 0 || choice > 3 || wrongtext);
             switch (choice) {
@@ -85,7 +88,7 @@ public class Main {
                     break;
                 case 0:
                     dbManager.disconnect();
-                    //userManager.disconnect();
+                    userManager.disconnect();
                     return;
                 default:
                     break;
@@ -160,6 +163,8 @@ public class Main {
     }
 
     private static void login() throws Exception {
+        String doctorName = "";
+        String patientName = "";
         System.out.println("Please input your credentials");
         System.out.print("Username:");
         String username = reader.readLine();
@@ -170,11 +175,11 @@ public class Main {
         if (user == null) {
             System.out.println("Wrong credentials, please try again!");
         } // We check the role
-        else if (user.getRole().getRole().equalsIgnoreCase("doctor")) {
+        else if (user.getRole().toStringRole().equalsIgnoreCase("doctor")) {
             System.out.println("Welcome doctor " + username + "!");
             doctorName = username;
             doctorMenu();
-        } else if (user.getRole().getRole().equalsIgnoreCase("patient")) {
+        } else if (user.getRole().toStringRole().equalsIgnoreCase("patient")) {
             System.out.println("Welcome patient" + username + "!");
             patientName = username;
             patientMenu();
@@ -182,7 +187,37 @@ public class Main {
             System.out.println("Invalid role.");
         }
     }
+    
+        private static void doctorMenu() throws Exception {
+        while (true) {
+            System.out.println("What would you like to do?");
+            System.out.println("1. Option 1");
+            System.out.println("2. Option 2");
+            Integer choice = new Integer(0);
+            boolean wrongtext = false;
+            do {
+                System.out.println("Introduce the number of the option you would like to choose: ");
+                try {
+                    choice = Integer.parseInt(reader.readLine());
+                    wrongtext = false;
+                } catch (NumberFormatException ex) {
+                    wrongtext = true;
+                    System.out.println("It's not a int, please enter a int.");
+                }
+            } while (choice < 0 || choice > 8 || wrongtext);
+            switch (choice) {
+                case 1:
+                    
+                    break;
+                case 2:
+                    
+                    break;
+               
 
+            }
+        }
+    }
+    
     private static void patientMenu() throws Exception {
         while (true) {
             System.out.println("What would you like to do?");
@@ -208,13 +243,13 @@ public class Main {
             } while (choice < 0 || choice > 8 || wrongtext);
             switch (choice) {
                 case 1:
-                    completeForm();
+                    //completeForm();
                     break;
                 case 2:
                     addEMG();
                     break;
                 case 3:
-                    addECG();
+                    //addECG();
                     break;
                 case 4:
                     searchEMGByStartDate();
@@ -223,17 +258,19 @@ public class Main {
                     searchECGByStartDate();
                     break;
                 case 6:
-                    String userName = userManager.updateUserName(patientName);
-                    patientManager.updateUserName(patientName, userName);
+                    //String userName = userManager.updateUserName(patientName);
+                    //patientManager.updateUserName(patientName, userName);
                     return;
                 case 7:
-                    userManager.updatePassword(patientName);
+                    //userManager.updatePassword(patientName);
                     return;
                 case 8:
                     return;
             }
         }
     }
+
+
 
     private static void searchEMGByStartDate() throws Exception {
         System.out.println("Please, enter the following information: ");
