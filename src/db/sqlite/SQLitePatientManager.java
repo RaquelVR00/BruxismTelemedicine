@@ -7,11 +7,13 @@ package db.sqlite;
 
 import db.interfaces.*;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import pojos.Emg;
 import pojos.Patient;
 
 /**
@@ -82,4 +84,76 @@ public class SQLitePatientManager implements PatientManager {
         }
     }
 
+   
+
+    @Override
+    public void updateUserName(String username, String newusername) {
+        try {
+            String sql = "UPDATE patient SET nameuser=? WHERE nameuser=?";
+            PreparedStatement s = c.prepareStatement(sql);
+            s.setString(2, username);
+            s.setString(1, newusername);
+            s.executeUpdate();
+            s.close();
+        } catch (SQLException e) {
+                e.printStackTrace();
+        }
+    }
+    
+    public List<String> getUsernames() {
+        List<String> stringList=new ArrayList<String>();
+        try {
+                String sql="SELECT nameuser FROM patient";
+                PreparedStatement p = c.prepareStatement(sql);
+                ResultSet rs= p.executeQuery();
+                while(rs.next()) {
+                        String nameuser = rs.getString("nameuser");
+                        stringList.add(nameuser);
+                }
+        } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+        }
+        return stringList;
+    }
+    public List<Emg> getEmg(String name) {
+        Emg newEmg = null;
+        try {
+                String sql="SELECT * FROM patient AS p JOIN productComponents AS pc ON p.id = pc.productId "
+                                +"JOIN component AS c ON pc.componentId=c.id "
+                                +"WHERE p.id = ?";
+                PreparedStatement p = c.prepareStatement(sql);
+                p.setInt(1, productId);
+                ResultSet rs= p.executeQuery();
+                List<Component> componentsList = new ArrayList<Component>();
+                boolean productCreated = false;
+                while(rs.next()) {
+                        if(!productCreated) {
+                   int newProductId = rs.getInt(1);
+                   String productName = rs.getString(2);
+                   String productType = rs.getString(3);
+                   float productPrice = rs.getFloat(4);
+                   int numberProducts = rs.getInt(5);
+                   newProduct = new Product(newProductId,productName,productType,productPrice,numberProducts);
+                   productCreated = true;
+                        }
+                   int componentId = rs.getInt(8);
+                   String componentName = rs.getString(9);
+                   Float price = rs.getFloat(10);
+                   String supplier = rs.getString(11);
+                   int numberComponents = rs.getInt(12);
+                   Component newComponent = new Component(componentId, componentName, price, supplier, numberComponents);
+                   componentsList.add(newComponent);
+
+                }
+                if(newProduct != null){
+                        newProduct.setComponents(componentsList);
+                }
+        }catch (SQLException e) {
+                e.printStackTrace();
+        }
+         System.out.println(newProduct);
+        return newProduct;
+        
+    }
 }

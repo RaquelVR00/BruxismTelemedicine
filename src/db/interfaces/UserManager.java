@@ -21,12 +21,16 @@ public interface UserManager {
 
 	public void createUser(User u);
 
-	public void newRole(Role r);
+	public void createRole(Role r);
 
 	public Role getRole(int id);
 
 	public List<Role> getRoles();
 
-	public User checkPassword(String email, String password);
+	public User checkPassword(String username, String password);
+        
+        public String updateUserName(String username);
+        
+        public void updatePassword(String username);
 
 }

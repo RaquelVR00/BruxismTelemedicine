@@ -38,6 +38,10 @@ public class Emg implements Serializable {
         this.finish_date = finish_date;
     }
 
+    public Emg(String name, Date start_date) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Date getStart_date() {
         return start_date;
     }

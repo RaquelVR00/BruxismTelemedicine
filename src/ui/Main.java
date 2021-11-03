@@ -38,10 +38,12 @@ public class Main {
     private static EmgManager emgManager;
     private static EcgManager ecgManager;
     private static UserManager userManager;
-
-    //public static String numbers = "0123456789";
-    //public static String caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    //public static String low_case = "abcdefghijklmnopqrstuvwxyz";
+    private static String doctorName = "";
+    private static String patientName = "";
+    public static String numbers = "0123456789";
+    public static String caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static String low_case = "abcdefghijklmnopqrstuvwxyz";
+   
     public static void main(String[] args) throws Exception {
         // In order to connect with the DB
         dbManager = new SQLiteManager();
@@ -78,13 +80,13 @@ public class Main {
             } while (choice < 0 || choice > 3 || wrongtext);
             switch (choice) {
                 case 1:
-                    //newRole();
+                    newRole();
                     break;
                 case 2:
-                    //newUser();
+                    newUser();
                     break;
                 case 3:
-                    //login();
+                    login();
                     break;
                 case 0:
                     dbManager.disconnect();
@@ -97,17 +99,17 @@ public class Main {
 
     }
 
-    /*
-        private static void newRole() throws Exception {
-		String roleName="patient";
-		Role role = new Role(roleName);
-		userManager.createRole(role);
-		roleName = "boss";
-		role = new Role(roleName);
-		userManager.createRole(role);
-		System.out.println("Roles Created!!");
-	}
-     */
+    
+    private static void newRole() throws Exception {
+        String roleName="patient";
+        Role role = new Role(roleName);
+        userManager.createRole(role);
+        roleName = "doctor";
+        role = new Role(roleName);
+        userManager.createRole(role);
+        System.out.println("Roles Created!!");
+    }
+     
 
     private static void newUser() throws Exception {
         List<Role> roles = userManager.getRoles();
@@ -163,8 +165,6 @@ public class Main {
     }
 
     private static void login() throws Exception {
-        String doctorName = "";
-        String patientName = "";
         System.out.println("Please input your credentials");
         System.out.print("Username:");
         String username = reader.readLine();
@@ -191,8 +191,17 @@ public class Main {
         private static void doctorMenu() throws Exception {
         while (true) {
             System.out.println("What would you like to do?");
-            System.out.println("1. Option 1");
-            System.out.println("2. Option 2");
+            System.out.println("1. Add patient");
+            System.out.println("2. Search patient by name");
+            System.out.println("3. Search EMG by name");
+            System.out.println("4. Search EMG by start Date");
+            System.out.println("5. Search ECG by name");
+            System.out.println("6. Search ECG by start Date");
+            //System.out.println("2. Search Form by name");
+            System.out.println("7. Delete patient");
+            System.out.println("8. Change your userName");
+            System.out.println("9. Change your password");
+            System.out.println("10. Go back");
             Integer choice = new Integer(0);
             boolean wrongtext = false;
             do {
@@ -204,19 +213,112 @@ public class Main {
                     wrongtext = true;
                     System.out.println("It's not a int, please enter a int.");
                 }
-            } while (choice < 0 || choice > 8 || wrongtext);
+            } while (choice < 1 || choice > 10 || wrongtext);
             switch (choice) {
                 case 1:
-                    
+                    addPatient();
                     break;
                 case 2:
-                    
+                    searchPatientByName();
                     break;
-               
+                case 3:
+                    searchEMGByName();
+                    break;
+                case 4:
+                    searchEMGByStartDate();
+                    break;
+                    
+                case 5:
+                    searchECGByName();
+                    break;
+                case 6:
+                    searchECGByStartDate();
+                    break;
+                case 7:
+                    deletePatient();
+                    break;
+                case 8:
+                    String userName = userManager.updateUserName(doctorName);
+                    doctorManager.updateUserName(doctorName,userName);
+                    break;
+                case 9:
+                    userManager.updatePassword(doctorName);
+                    break;
+                case 10:
+                    break;
+                    
 
             }
         }
     }
+        private static void addPatient() throws Exception {
+        System.out.println("Please, enter the following information: ");
+        System.out.println("Name: ");
+        String name = reader.readLine();
+
+        System.out.println("Age: ");
+        Integer age = Integer.parseInt(reader.readLine());
+        System.out.println("Weight: ");
+        Float weight = Float.parseFloat(reader.readLine());
+        System.out.println("Height: ");
+        Float height = Float.parseFloat(reader.readLine());
+        System.out.println("Gender: ");
+        String gender = reader.readLine();
+         
+        Patient patient = new Patient(name, age, weight, height, gender);
+        
+        String username = "";
+        boolean distinctUser = false;
+        do {
+                System.out.println("Introduce a username for the patient: ");
+                username = reader.readLine();
+                List<String> existUsernames = new ArrayList<String>();
+                existUsernames = patientManager.getUsernames();
+                if (existUsernames.contains(username)) {
+                        distinctUser = true;
+                } else {
+                        distinctUser = false;
+                }
+        } while (distinctUser);
+
+        String UserName = username;
+        System.out.print("Password:");
+        String password = getPassword();
+        System.out.println("the default password for a patient is:" + password);
+        // Create the password's hash
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] hash = md.digest();
+        int roleId = 2;
+        // Get the chosen role from the database
+        Role chosenRole = userManager.getRole(roleId);
+        // Create the user and store it
+        User user = new User(UserName, hash, chosenRole);
+        userManager.createUser(user);
+        patient.setNameuser(UserName);
+        patientManager.add(patient);
+    }
+    
+        private static void searchPatientByName() throws Exception {
+		System.out.println("Please, enter the following information: ");
+		System.out.println("Enter the name of the patient you want to search: ");
+		String name = reader.readLine();
+		List<Patient> patientList = patientManager.searchByName(name);
+		for (Patient patient : patientList) {
+			System.out.println(patient);
+		}
+	}
+        
+        private static void searchEMGByName() throws Exception {
+		System.out.println("Please, enter the following information: ");
+		System.out.println("Enter the name of the patient to obtain his list of EMG: ");
+		String name = reader.readLine();
+		List<Emg> emgList = patientManager.getEmg(name);
+		for (Patient patient : patientList) {
+			System.out.println(patient);
+		}
+	}
+
     
     private static void patientMenu() throws Exception {
         while (true) {
@@ -249,7 +351,7 @@ public class Main {
                     addEMG();
                     break;
                 case 3:
-                    //addECG();
+                    addECG();
                     break;
                 case 4:
                     searchEMGByStartDate();
@@ -258,11 +360,11 @@ public class Main {
                     searchECGByStartDate();
                     break;
                 case 6:
-                    //String userName = userManager.updateUserName(patientName);
-                    //patientManager.updateUserName(patientName, userName);
+                    String userName = userManager.updateUserName(patientName);
+                    patientManager.updateUserName(patientName,userName);
                     return;
                 case 7:
-                    //userManager.updatePassword(patientName);
+                    userManager.updatePassword(patientName);
                     return;
                 case 8:
                     return;
@@ -289,14 +391,15 @@ public class Main {
                     System.out.println("It's not a date, please enter a date.");
                 }
             } while (wrongtext);
-        } while (patientManager.searchByStartDate(start_date) == null);
+        } while (emgManager.searchByStartDate(start_date) == null);
 
-        List<Emg> emgList = patientManager.searchByStartDate(start_date);
+        List<Emg> emgList = (List<Emg>) emgManager.searchByStartDate(start_date);
         for (Emg emg : emgList) {
             System.out.println(emg);
         }
     }
-
+    
+    
     private static void searchECGByStartDate() throws Exception {
         System.out.println("Please, enter the following information: ");
 
@@ -314,10 +417,10 @@ public class Main {
                     System.out.println("It's not a date, please enter a date.");
                 }
             } while (wrongtext);
-        } while (patientManager.searchByStartDate(start_date) == null);
+        } while (ecgManager.searchByStartDate(start_date) == null);
 
-        List<Ecg> ecgList = patientManager.searchByStartDate(start_date);
-        for (Ecg ecg : emgList) {
+        List<Ecg> ecgList = (List<Ecg>) ecgManager.searchByStartDate(start_date);
+        for (Ecg ecg : ecgList) {
             System.out.println(ecg);
         }
     }
@@ -343,7 +446,47 @@ public class Main {
         } while (wrongtext);
 
         Emg emg = new Emg(name, start_date);
-        EmgManager.add(emg);
+        emgManager.add(emg);
     }
+    private static void addECG() throws Exception {
+        System.out.println("Please, enter the following information: ");
+        System.out.println("Name: ");
+        String name = reader.readLine();
 
+        System.out.println("Start_date: ");
+        Date start_date = null;
+        String date = reader.readLine();
+        boolean wrongtext = false;
+        do {
+            System.out.println("Enter the start date of the ECG: ");
+            try {
+                start_date = (Date) formatter.parse(date);
+                wrongtext = false;
+            } catch (NumberFormatException ex) {
+                wrongtext = true;
+                System.out.println("It's not a date, please enter a date.");
+            }
+        } while (wrongtext);
+
+        Ecg ecg = new Ecg(name, start_date);
+        ecgManager.add(ecg);
+    }
+    
+    public static String getPassword(int length) {
+		return getPassword(numbers + caps + low_case, length);
+	}
+
+	public static String getPassword(String key, int length) {
+		String pswd = "";
+
+		for (int i = 0; i < length; i++) {
+			pswd += (key.charAt((int) (Math.random() * key.length())));
+		}
+
+		return pswd;
+	}
+
+	public static String getPassword() {
+		return getPassword(8);
+	}
 }

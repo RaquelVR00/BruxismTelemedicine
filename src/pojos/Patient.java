@@ -35,6 +35,8 @@ public class Patient implements Serializable {
     private List<Ecg> ecg;
 
     private List<Emg> emg;
+    
+    private String nameuser;
 
     public Patient(Integer id, String Fullname, Integer age, Float weight, Float height, String gender, List<Ecg> ecg, List<Emg> emg) {
         this.id = id;
@@ -58,6 +60,14 @@ public class Patient implements Serializable {
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public Patient(String name, Integer age, Float weight, Float height, String gender) {
+        this.Fullname = Fullname;
+        this.age = age;
+        this.weight = weight;
+        this.height = height;
+        this.gender = gender;
     }
 
     public Integer getId() {
@@ -131,21 +141,23 @@ public class Patient implements Serializable {
     public void setEmg(List<Emg> emg) {
         this.emg = emg;
     }
+    
+    public String getNameuser() {
+        return nameuser;
+    }
 
-    /*
+    public void setNameuser(String nameuser) {
+        this.nameuser = nameuser;
+    }
+
+
+    
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 13 * hash + Objects.hashCode(this.id);
-        hash = 13 * hash + Objects.hashCode(this.Fullname);
-        hash = 13 * hash + Objects.hashCode(this.age);
-        hash = 13 * hash + Objects.hashCode(this.weight);
-        hash = 13 * hash + Objects.hashCode(this.height);
-        hash = 13 * hash + Objects.hashCode(this.gender);
-        hash = 13 * hash + Objects.hashCode(this.doctors);
-        hash = 13 * hash + Objects.hashCode(this.ecg);
-        hash = 13 * hash + Objects.hashCode(this.emg);
-        return hash;
+        final int prime=31;
+        int result = 1;
+        result = prime * result + ((id==null) ? 0 : id.hashCode());
+        return result;
     }
 
     @Override
@@ -159,36 +171,14 @@ public class Patient implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Patient other = (Patient) obj;
-        if (!Objects.equals(this.Fullname, other.Fullname)) {
+        Patient other = (Patient) obj;
+        if (id==null) {
+            if (other.id !=null)
+                return false;
+        } else if (!id.equals(other.id))
             return false;
-        }
-        if (!Objects.equals(this.gender, other.gender)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.age, other.age)) {
-            return false;
-        }
-        if (!Objects.equals(this.weight, other.weight)) {
-            return false;
-        }
-        if (!Objects.equals(this.height, other.height)) {
-            return false;
-        }
-        if (!Objects.equals(this.doctors, other.doctors)) {
-            return false;
-        }
-        if (!Objects.equals(this.ecg, other.ecg)) {
-            return false;
-        }
-        if (!Objects.equals(this.emg, other.emg)) {
-            return false;
-        }
         return true;
-    }*/
+    }
     @Override
     public String toString() {
         return "Patient{" + "id=" + id + ", Fullname=" + Fullname + ", age=" + age + ", weight=" + weight + ", height=" + height + ", gender=" + gender + ", doctors=" + doctors + '}';

@@ -71,5 +71,19 @@ public class SQLiteDoctorManager implements DoctorManager {
         } catch (SQLException e) {
         }
     }
+    
+    @Override
+    public void updateUserName(String username, String newusername) {
+        try {
+            String sql = "UPDATE doctor SET nameuser=? WHERE nameuser=?";
+            PreparedStatement s = c.prepareStatement(sql);
+            s.setString(2, username);
+            s.setString(1, newusername);
+            s.executeUpdate();
+            s.close();
+        } catch (SQLException e) {
+                e.printStackTrace();
+        }
+    }
 
 }

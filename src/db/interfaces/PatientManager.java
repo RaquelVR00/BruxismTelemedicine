@@ -5,6 +5,7 @@
  */
 package db.interfaces;
 
+import java.sql.Date;
 import java.util.List;
 import pojos.Patient;
 
@@ -16,4 +17,6 @@ public interface PatientManager {
     public List<Patient> searchByName(String name);
     public void add(Patient patient);
     public void delete(Integer patient_id);
+    public void updateUserName(String username,String newusername);
+    public List<String> getUsernames();
 }

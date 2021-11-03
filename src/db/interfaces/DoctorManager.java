@@ -17,4 +17,5 @@ public interface DoctorManager {
     public List<Doctor> searchByName(String name);
     public void add(Doctor doctor);
     public void delete(Integer doctor_id);
+    public void updateUserName(String doctorName, String userName);
 }
