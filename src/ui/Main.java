@@ -300,23 +300,35 @@ public class Main {
     }
     
         private static void searchPatientByName() throws Exception {
-		System.out.println("Please, enter the following information: ");
-		System.out.println("Enter the name of the patient you want to search: ");
-		String name = reader.readLine();
-		List<Patient> patientList = patientManager.searchByName(name);
-		for (Patient patient : patientList) {
-			System.out.println(patient);
-		}
+            System.out.println("Please, enter the following information: ");
+            System.out.println("Enter the name of the patient you want to search: ");
+            String name = reader.readLine();
+            List<Patient> patientList = patientManager.searchByName(name);
+            for (Patient patient : patientList) {
+                    System.out.println(patient);
+            }
 	}
         
         private static void searchEMGByName() throws Exception {
-		System.out.println("Please, enter the following information: ");
-		System.out.println("Enter the name of the patient to obtain his list of EMG: ");
-		String name = reader.readLine();
-		List<Emg> emgList = patientManager.getEmg(name);
-		for (Patient patient : patientList) {
-			System.out.println(patient);
-		}
+            searchPatientByName();
+            Integer patient_id = new Integer(0);
+            boolean wrongtext = false;
+            do {
+                    System.out.println("Choose an id:  ");
+                    do {
+                            try {
+                                    patient_id = Integer.parseInt(reader.readLine());
+                                    wrongtext = false;
+                            } catch (NumberFormatException ex) {
+                                    wrongtext = true;
+                                    System.out.println("It's not a int, please enter a int.");
+                            }
+                    } while (wrongtext);
+            } while (patientManager.getPatient(patient_id) == null);
+            Patient patient = patientManager.getPatient(patient_id);
+            
+            System.out.println("Choose a ECG");
+        
 	}
 
     

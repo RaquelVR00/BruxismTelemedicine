@@ -70,6 +70,10 @@ public class Patient implements Serializable {
         this.gender = gender;
     }
 
+    public Patient(int newPatientId, String patientName, String patientAge, Float patientWeight, Float patientHeight, String patientGender, String username) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Integer getId() {
         return id;
     }

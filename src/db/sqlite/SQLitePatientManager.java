@@ -116,44 +116,38 @@ public class SQLitePatientManager implements PatientManager {
         }
         return stringList;
     }
-    public List<Emg> getEmg(String name) {
-        Emg newEmg = null;
-        try {
-                String sql="SELECT * FROM patient AS p JOIN productComponents AS pc ON p.id = pc.productId "
-                                +"JOIN component AS c ON pc.componentId=c.id "
-                                +"WHERE p.id = ?";
-                PreparedStatement p = c.prepareStatement(sql);
-                p.setInt(1, productId);
-                ResultSet rs= p.executeQuery();
-                List<Component> componentsList = new ArrayList<Component>();
-                boolean productCreated = false;
-                while(rs.next()) {
-                        if(!productCreated) {
-                   int newProductId = rs.getInt(1);
-                   String productName = rs.getString(2);
-                   String productType = rs.getString(3);
-                   float productPrice = rs.getFloat(4);
-                   int numberProducts = rs.getInt(5);
-                   newProduct = new Product(newProductId,productName,productType,productPrice,numberProducts);
-                   productCreated = true;
-                        }
-                   int componentId = rs.getInt(8);
-                   String componentName = rs.getString(9);
-                   Float price = rs.getFloat(10);
-                   String supplier = rs.getString(11);
-                   int numberComponents = rs.getInt(12);
-                   Component newComponent = new Component(componentId, componentName, price, supplier, numberComponents);
-                   componentsList.add(newComponent);
-
-                }
-                if(newProduct != null){
-                        newProduct.setComponents(componentsList);
-                }
-        }catch (SQLException e) {
-                e.printStackTrace();
-        }
-         System.out.println(newProduct);
-        return newProduct;
-        
-    }
+   public Patient getPatient(int patientId) {
+		Patient newPatient = null;
+		try {
+			String sql = "SELECT * FROM patients" + " WHERE id = ?";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setInt(1, patientId);
+			ResultSet rs = p.executeQuery();
+			boolean patientCreated = false;
+			while (rs.next()) {
+                            if (!patientCreated) {
+                                    int newPatientId = rs.getInt(1);
+                                    String patientName = rs.getString(2);
+                                    String patientAge = rs.getString(3);
+                                    Float patientWeight = rs.getFloat(4);
+                                    Float patientHeight = rs.getFloat(5);
+                                    String patientGender = rs.getString(6);
+                                    String username = rs.getString(7);
+                                    newPatient = new Patient(newPatientId,patientName,patientAge,patientWeight,patientHeight,patientGender,username);
+                                    newPatient.setNameuser(username);
+                                    patientCreated = true;
+                            }
+                           int emgId = rs.getInt(8);
+			   String emgName = rs.getString(9);
+			   Float price = rs.getFloat(10);
+			   String supplier = rs.getString(11);
+			   int numberComponents = rs.getInt(12);
+			   Component newComponent = new Component(componentId, componentName, price, supplier, numberComponents);
+			   componentsList.add(newComponent);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return newPatient;
+	}
 }

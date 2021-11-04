@@ -51,6 +51,7 @@ public class SQLiteEmgManager implements EmgManager {
         }
         return emgsList;
     }
+    
 
     @Override
     public List<Emg> searchByStartDate(Date start_date) {

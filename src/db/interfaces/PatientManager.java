@@ -19,4 +19,5 @@ public interface PatientManager {
     public void delete(Integer patient_id);
     public void updateUserName(String username,String newusername);
     public List<String> getUsernames();
+    public Patient getPatient(int patientId);
 }
