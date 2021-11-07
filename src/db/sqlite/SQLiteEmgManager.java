@@ -14,12 +14,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 import pojos.Emg;
-import pojos.Patient;
 
-/**
- *
- * @author RAQUEL
- */
 public class SQLiteEmgManager implements EmgManager {
 
     private Connection c;
@@ -51,7 +46,6 @@ public class SQLiteEmgManager implements EmgManager {
         }
         return emgsList;
     }
-    
 
     @Override
     public List<Emg> searchByStartDate(Date start_date) {

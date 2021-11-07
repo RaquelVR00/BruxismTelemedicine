@@ -5,14 +5,8 @@
  */
 package pojos;
 
-/**
- *
- *
- */
 import java.io.Serializable;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class Patient implements Serializable {
 
@@ -20,7 +14,7 @@ public class Patient implements Serializable {
 
     private Integer id;
 
-    private String fullName;
+    private String full_name;
 
     private Integer age;
 
@@ -36,13 +30,13 @@ public class Patient implements Serializable {
 
     private List<Emg> emg;
 
-    private String nameuser;
+    private String name_user;
 
     private byte[] patient_form;
 
-    public Patient(Integer id, String fullName, Integer age, Float weight, Float height, String gender, List<Ecg> ecg, List<Emg> emg) {
+    public Patient(Integer id, String full_name, Integer age, Float weight, Float height, String gender, List<Ecg> ecg, List<Emg> emg) {
         this.id = id;
-        this.fullName = fullName;
+        this.full_name = full_name;
         this.age = age;
         this.weight = weight;
         this.height = height;
@@ -51,9 +45,9 @@ public class Patient implements Serializable {
         this.emg = emg;
     }
 
-    public Patient(Integer id, String fullName, Integer age, Float weight, Float height, String gender) {
+    public Patient(Integer id, String full_name, Integer age, Float weight, Float height, String gender) {
         this.id = id;
-        this.fullName = fullName;
+        this.full_name = full_name;
         this.age = age;
         this.weight = weight;
         this.height = height;
@@ -64,29 +58,25 @@ public class Patient implements Serializable {
         return serialVersionUID;
     }
 
-    public Patient(String fullName, Integer age, Float weight, Float height, String gender) {
-        this.fullName = fullName;
+    public Patient(String full_name, Integer age, Float weight, Float height, String gender) {
+        this.full_name = full_name;
         this.age = age;
         this.weight = weight;
         this.height = height;
         this.gender = gender;
     }
 
-    public Patient(String fullName) {
-        this.fullName = fullName;
+    public Patient(String full_name) {
+        this.full_name = full_name;
 
-    }
-
-    public Patient(int newPatientId, String fullName, String patientAge, Float patientWeight, Float patientHeight, String patientGender, String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFull_name() {
+        return full_name;
     }
 
     public Integer getAge() {
@@ -117,7 +107,7 @@ public class Patient implements Serializable {
         return emg;
     }
 
-    public byte[] getPatientForm() {
+    public byte[] getPatient_form() {
         return this.patient_form;
     }
 
@@ -125,8 +115,8 @@ public class Patient implements Serializable {
         this.id = id;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
 
     public void setAge(Integer age) {
@@ -157,15 +147,15 @@ public class Patient implements Serializable {
         this.emg = emg;
     }
 
-    public String getNameuser() {
-        return nameuser;
+    public String getName_user() {
+        return name_user;
     }
 
-    public void setNameuser(String nameuser) {
-        this.nameuser = nameuser;
+    public void setName_user(String name_user) {
+        this.name_user = name_user;
     }
 
-    public void setPatientForm(byte[] patient_form) {
+    public void setPatient_form(byte[] patient_form) {
         this.patient_form = patient_form;
     }
 
@@ -201,11 +191,7 @@ public class Patient implements Serializable {
 
     @Override
     public String toString() {
-        return "Patient{" + "id=" + id + ", Fullname=" + fullName + ", age=" + age + ", weight=" + weight + ", height=" + height + ", gender=" + gender + ", doctors=" + doctors + '}';
-    }
-
-    public static void main(String[] args) {
-        System.out.println("test");
+        return "Patient{" + "id=" + id + ", Fullname=" + full_name + ", age=" + age + ", weight=" + weight + ", height=" + height + ", gender=" + gender + ", doctors=" + doctors + '}';
     }
 
 }

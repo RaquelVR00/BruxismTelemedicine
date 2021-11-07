@@ -1,13 +1,10 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package db.jpa;
 
-/**
- *
- * @author ricardooriol
- */
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -46,16 +43,16 @@ public class JPAUserManager implements UserManager {
     }
 
     @Override
-    public void createUser(User u) {
+    public void createUser(User user) {
         em.getTransaction().begin();
-        em.persist(u);
+        em.persist(user);
         em.getTransaction().commit();
     }
 
     @Override
-    public void createRole(Role r) {
+    public void createRole(Role role) {
         em.getTransaction().begin();
-        em.persist(r);
+        em.persist(role);
         em.getTransaction().commit();
     }
 
@@ -92,7 +89,7 @@ public class JPAUserManager implements UserManager {
     }
 
     @Override
-    public String updateUserName(String username) {
+    public String updateUsername(String username) {
         return null;
     }
 

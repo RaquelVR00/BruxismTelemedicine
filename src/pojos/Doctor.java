@@ -1,13 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package pojos;
 
-/**
- *
- * @author RAQUEL
- */
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Doctor implements Serializable {
@@ -15,22 +13,22 @@ public class Doctor implements Serializable {
     private static final long serialVersionUID = 6891296751142184360L;
 
     private Integer id;
-    private String Fullname;
+    private String full_name;
     private List<Patient> patients;
 
     public Doctor() {
         super();
     }
 
-    public Doctor(Integer id, String Fullname) {
+    public Doctor(Integer id, String full_name) {
         this.id = id;
-        this.Fullname = Fullname;
+        this.full_name = full_name;
 
     }
 
-    public Doctor(String Fullname, List<Patient> patients) {
+    public Doctor(String full_name, List<Patient> patients) {
         super();
-        this.Fullname = Fullname;
+        this.full_name = full_name;
         this.patients = patients;
 
     }
@@ -64,12 +62,12 @@ public class Doctor implements Serializable {
         this.id = id;
     }
 
-    public String getFullname() {
-        return Fullname;
+    public String getFull_name() {
+        return full_name;
     }
 
-    public void setFullname(String Fullname) {
-        this.Fullname = Fullname;
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
 
     public static long getSerialversionuid() {

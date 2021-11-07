@@ -5,19 +5,20 @@
  */
 package db.interfaces;
 
-import java.sql.Date;
 import java.util.List;
 import pojos.Patient;
 
-/**
- *
- * @author RAQUEL
- */
 public interface PatientManager {
+
     public List<Patient> searchByName(String name);
+
     public void add(Patient patient);
+
     public void delete(Integer patient_id);
-    public void updateUserName(String username,String newusername);
+
+    public void updateUsername(String username, String newUsername);
+
     public List<String> getUsernames();
-    public Patient getPatient(int patientId);
+
+    public Patient getPatient(int patient_id);
 }

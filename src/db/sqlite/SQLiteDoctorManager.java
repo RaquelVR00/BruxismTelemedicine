@@ -14,10 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import pojos.Doctor;
 
-/**
- *
- * @author RAQUEL
- */
 public class SQLiteDoctorManager implements DoctorManager {
 
     private Connection c;
@@ -53,7 +49,7 @@ public class SQLiteDoctorManager implements DoctorManager {
             String sql = "INSERT INTO doctors (Fullname) "
                     + "VALUES (?)";
             PreparedStatement prep = c.prepareStatement(sql);
-            prep.setString(1, doctor.getFullname());
+            prep.setString(1, doctor.getFull_name());
             prep.executeUpdate();
             prep.close();
         } catch (SQLException e) {
@@ -71,18 +67,18 @@ public class SQLiteDoctorManager implements DoctorManager {
         } catch (SQLException e) {
         }
     }
-    
+
     @Override
-    public void updateUserName(String username, String newusername) {
+    public void updateUsername(String username, String newUsername) {
         try {
             String sql = "UPDATE doctor SET nameuser=? WHERE nameuser=?";
             PreparedStatement s = c.prepareStatement(sql);
             s.setString(2, username);
-            s.setString(1, newusername);
+            s.setString(1, newUsername);
             s.executeUpdate();
             s.close();
         } catch (SQLException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

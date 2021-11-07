@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package db.sqlite;
 
 import db.interfaces.*;
@@ -64,7 +69,7 @@ public class SQLiteManager implements DBManager {
                     + " Fullname   TEXT   NOT NULL," + "age INTEGER NOT NULL," + "weight FLOAT NOT NULL,"
                     + "height FLOAT NOT NULL," + " gender TEXT NOT NULL," + " nameuser TEXT NOT NULL UNIQUE)";
             stmt1.executeUpdate(sql2);
-            stmt1 = c.createStatement(); // One to many dog-medicines table
+            stmt1 = c.createStatement();
             String sql3 = "CREATE TABLE doctorPatients " + "(doctorId     INTEGER  REFERENCES doctors(id) ON UPDATE CASCADE ON DELETE SET NULL, "
                     + "patientId     INTEGER  REFERENCES patients(id) ON UPDATE CASCADE ON DELETE SET NULL, " + "PRIMARY KEY(doctorid,patientId))";
             stmt1.executeUpdate(sql3);
@@ -78,7 +83,6 @@ public class SQLiteManager implements DBManager {
                     + " name_ecg   TEXT   NOT NULL," + "start_date DATE NOT NULL," + "finish_date DATE NOT NULL,"
                     + ")";
             stmt1.executeUpdate(sql5);
-            // Insert some medicines
 
             stmt1.close();
         } catch (SQLException e) {
@@ -109,19 +113,21 @@ public class SQLiteManager implements DBManager {
         return ecg;
     }
 
-//	@Override
-//	public int getLastId() {
-//            int result = 0;
-//            try {
-//                String query = "SELECT last_insert_rowid() AS lastId";
-//                PreparedStatement p = c.prepareStatement(query);
-//                ResultSet rs = p.executeQuery();
-//                result = rs.getInt("lastId");
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//            return result;
-//	}
+    /*
+    @Override
+    public int getLastId() {
+        int result = 0;
+        try {
+            String query = "SELECT last_insert_rowid() AS lastId";
+            PreparedStatement p = c.prepareStatement(query);
+            ResultSet rs = p.executeQuery();
+            result = rs.getInt("lastId");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+     */
     public PatientManager getPatient() {
         return patient;
     }

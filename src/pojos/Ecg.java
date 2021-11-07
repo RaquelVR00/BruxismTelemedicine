@@ -7,12 +7,7 @@ package pojos;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Objects;
 
-/**
- *
- * @author RAQUEL
- */
 public class Ecg implements Serializable {
 
     private Integer id;
@@ -111,7 +106,6 @@ public class Ecg implements Serializable {
         }
         return true;
     }*/
-
     @Override
     public String toString() {
         return "Ecg{" + "id=" + id + ", name_ecg=" + name_ecg + ", start_date=" + start_date + ", finish_date=" + finish_date + '}';

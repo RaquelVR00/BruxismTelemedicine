@@ -1,36 +1,32 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package db.interfaces;
 
-/**
- *
- * @author ricardooriol
- */
 import java.util.List;
 import pojos.users.Role;
 import pojos.users.User;
 
-
 public interface UserManager {
 
-	public void connect();
+    public void connect();
 
-	public void disconnect();
+    public void disconnect();
 
-	public void createUser(User u);
+    public void createUser(User user);
 
-	public void createRole(Role r);
+    public void createRole(Role role);
 
-	public Role getRole(int id);
+    public Role getRole(int id);
 
-	public List<Role> getRoles();
+    public List<Role> getRoles();
 
-	public User checkPassword(String username, String password);
-        
-        public String updateUserName(String username);
-        
-        public void updatePassword(String username);
+    public User checkPassword(String username, String password);
+
+    public String updateUsername(String username);
+
+    public void updatePassword(String username);
 
 }

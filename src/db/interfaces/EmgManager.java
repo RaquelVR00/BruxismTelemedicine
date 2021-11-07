@@ -9,14 +9,14 @@ import java.sql.Date;
 import java.util.List;
 import pojos.Emg;
 
-/**
- *
- * @author RAQUEL
- */
 public interface EmgManager {
+
     public List<Emg> searchByName(String name_emg);
+
     public List<Emg> searchByStartDate(Date start_date);
+
     public void add(Emg emg);
+
     public void delete(Integer emg_id);
-    
+
 }

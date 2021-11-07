@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package ui;
 
 import java.io.BufferedReader;
@@ -5,25 +10,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
-//import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
-
 import db.interfaces.*;
 import db.jpa.JPAUserManager;
-
 import pojos.*;
 import db.sqlite.SQLiteManager;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import java.sql.*;
 import pojos.users.Role;
 import pojos.users.User;
@@ -31,12 +28,8 @@ import static utils.InputOutput.getIntFromKeyboard1to10;
 
 public class Main {
 
-    //PRUEBA PUSH PARA VER SI SE PUEDE HACER PULL -  RICARDO ORIOL
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Each time dates are added
-    // this is the format that
-    // is needed.
     private static BufferedReader reader; // To read from the console
-    // para añadir nuevos productos a la base de datos una vez que ya se han creado
     private static DBManager dbManager;
     private static PatientManager patientManager;
     private static DoctorManager doctorManager;
@@ -80,7 +73,7 @@ public class Main {
                     wrongtext = false;
                 } catch (NumberFormatException ex) {
                     wrongtext = true;
-                    System.out.println("It's not a int, please enter a int");
+                    System.out.println("It's not an int, please enter an int");
                 }
             } while (choice < 0 || choice > 3 || wrongtext);
             switch (choice) {
@@ -120,10 +113,10 @@ public class Main {
             System.out.println("There are not roles, please create the roles");
             return;
         }
-        System.out.println("Please type the new user information:");
-        System.out.print("Username:");
+        System.out.println("Please type the new user information: ");
+        System.out.print("Username: ");
         String username = reader.readLine();
-        System.out.print("Password:");
+        System.out.print("Password: ");
         String password = reader.readLine();
 
         // Create the password's hash
@@ -143,16 +136,16 @@ public class Main {
                 System.out.println(role);
 
             }
-            System.out.print("Type the chosen role id:");
+            System.out.print("Type the chosen role ID: ");
             try {
                 roleId = Integer.parseInt(reader.readLine());
                 wrongtext = false;
             } catch (NumberFormatException ex) {
                 wrongtext = true;
-                System.out.println("It's not a int, please enter a int.");
+                System.out.println("It's not an int, please enter an int");
             }
             if (roleId != 1 && roleId != 3) {
-                System.out.println("Not valid id, if you want to exit this option say yes:");
+                System.out.println("That's not a valid ID, if you want to exit this option type 'yes': ");
                 exit = reader.readLine();
             }
         } while (roleId != 1 && roleId != 2);
@@ -169,9 +162,9 @@ public class Main {
 
     private static void login() throws Exception {
         System.out.println("Please input your credentials");
-        System.out.print("Username:");
+        System.out.print("Username: ");
         String username = reader.readLine();
-        System.out.print("Password:");
+        System.out.print("Password: ");
         String password = reader.readLine();
         User user = userManager.checkPassword(username, password);
         // We check if the user/password combination was OK
@@ -183,11 +176,11 @@ public class Main {
             doctorName = username;
             doctorMenu();
         } else if (user.getRole().toStringRole().equalsIgnoreCase("patient")) {
-            System.out.println("Welcome patient" + username + "!");
+            System.out.println("Welcome patient " + username + "!");
             patientName = username;
             patientMenu();
         } else {
-            System.out.println("Invalid role.");
+            System.out.println("Invalid role");
         }
     }
 
@@ -214,7 +207,7 @@ public class Main {
                     wrongtext = false;
                 } catch (NumberFormatException ex) {
                     wrongtext = true;
-                    System.out.println("It's not a int, please enter a int.");
+                    System.out.println("It's not an int, please enter an int");
                 }
             } while (choice < 1 || choice > 10 || wrongtext);
             switch (choice) {
@@ -244,8 +237,8 @@ public class Main {
                     //deletePatient();
                     break;
                 case 9:
-                    String userName = userManager.updateUserName(doctorName);
-                    doctorManager.updateUserName(doctorName, userName);
+                    String userName = userManager.updateUsername(doctorName);
+                    doctorManager.updateUsername(doctorName, userName);
                     break;
                 case 10:
                     userManager.updatePassword(doctorName);
@@ -261,7 +254,6 @@ public class Main {
         System.out.println("Please, enter the following information: ");
         System.out.println("Name: ");
         String name = reader.readLine();
-
         System.out.println("Age: ");
         Integer age = Integer.parseInt(reader.readLine());
         System.out.println("Weight: ");
@@ -288,9 +280,9 @@ public class Main {
         } while (distinctUser);
 
         String UserName = username;
-        System.out.print("Password:");
+        System.out.print("Password: ");
         String password = getPassword();
-        System.out.println("the default password for a patient is:" + password);
+        System.out.println("The default password for a patient is: " + password);
         // Create the password's hash
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(password.getBytes());
@@ -301,12 +293,12 @@ public class Main {
         // Create the user and store it
         User user = new User(UserName, hash, chosenRole);
         userManager.createUser(user);
-        patient.setNameuser(UserName);
+        patient.setName_user(UserName);
         patientManager.add(patient);
     }
 
     private static void searchPatientByName() throws Exception {
-        System.out.println("Please, enter the following information: ");
+        System.out.println("Please, enter the following information");
         System.out.println("Enter the name of the patient you want to search: ");
         String name = reader.readLine();
         List<Patient> patientList = patientManager.searchByName(name);
@@ -320,34 +312,33 @@ public class Main {
         Integer patient_id = new Integer(0);
         boolean wrongtext = false;
         do {
-            System.out.println("Choose an id:  ");
+            System.out.println("Choose an id: ");
             do {
                 try {
                     patient_id = Integer.parseInt(reader.readLine());
                     wrongtext = false;
                 } catch (NumberFormatException ex) {
                     wrongtext = true;
-                    System.out.println("It's not a int, please enter a int.");
+                    System.out.println("It's not an int, please enter an int");
                 }
             } while (wrongtext);
         } while (patientManager.getPatient(patient_id) == null);
         Patient patient = patientManager.getPatient(patient_id);
-
-        System.out.println("Choose a ECG");
+        System.out.println("Choose an ECG: ");
 
     }
 
     private static void searchFormByName(Patient patient) throws Exception {
         reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Please, enter the following information: ");
+        System.out.println("Please, enter the following information");
         System.out.println("Enter the name of the patient you want to search: ");
         String name = reader.readLine();
 
-        if (patient.getFullName().equalsIgnoreCase(name)) {
-            System.out.println("Enter the desired name of the file (fileName.txt):");
+        if (patient.getFull_name().equalsIgnoreCase(name)) {
+            System.out.println("Enter the desired name of the file (fileName.txt): ");
             String fileName = reader.readLine();
             Path path = Paths.get(fileName);
-            Files.write(path, patient.getPatientForm());
+            Files.write(path, patient.getPatient_form());
         } else {
             System.out.println("There is no patient with the name " + name);
         }
@@ -373,7 +364,7 @@ public class Main {
                     wrongtext = false;
                 } catch (NumberFormatException ex) {
                     wrongtext = true;
-                    System.out.println("It's not a int, please enter a int.");
+                    System.out.println("It's not an int, please enter an int");
                 }
             } while (choice < 0 || choice > 8 || wrongtext);
             switch (choice) {
@@ -393,8 +384,8 @@ public class Main {
                     searchECGByStartDate();
                     break;
                 case 6:
-                    String userName = userManager.updateUserName(patientName);
-                    patientManager.updateUserName(patientName, userName);
+                    String username = userManager.updateUsername(patientName);
+                    patientManager.updateUsername(patientName, username);
                     return;
                 case 7:
                     userManager.updatePassword(patientName);
@@ -407,7 +398,7 @@ public class Main {
 
     private static void completeForm(Patient patient) throws Exception {
         System.out.println("Please answer the following questions.");
-        System.out.println("For each question, enter a number between 0 (not likely) to 10 (very likely):");
+        System.out.println("For each question, enter a number between 1 (not likely) to 10 (very likely)");
         Integer q1 = getIntFromKeyboard1to10("1. Do you have difficulty or pain when opening your mouth, for example, when yawning?");
         Integer q2 = getIntFromKeyboard1to10("2. Do you feel your jaw “sticking”, “locking” or “popping out”?");
         Integer q3 = getIntFromKeyboard1to10("3. Do you have difficulty or pain when you chew, speak, or use your jaws?");
@@ -455,7 +446,7 @@ public class Main {
             printWriter.print("\n20. Have you noticed that you have considerable wear on your teeth? -> " + q20.toString());
 
         } catch (IOException ex) {
-            System.out.println("There was an error while saving.");
+            System.out.println("There was an error while saving");
 
         } finally {
             if (printWriter != null) {
@@ -463,15 +454,15 @@ public class Main {
             }
 
         }
-        System.out.println("Form saved successfully.");
+        System.out.println("Form saved successfully");
         String filePath = "patient_form.txt";
         byte[] patient_form = Files.readAllBytes(Paths.get(filePath));
-        patient.setPatientForm(patient_form);
+        patient.setPatient_form(patient_form);
 
     }
 
     private static void searchEMGByStartDate() throws Exception {
-        System.out.println("Please, enter the following information: ");
+        System.out.println("Please, enter the following information");
 
         Date start_date = null;
         String date = reader.readLine();
@@ -484,7 +475,7 @@ public class Main {
                     wrongtext = false;
                 } catch (NumberFormatException ex) {
                     wrongtext = true;
-                    System.out.println("It's not a date, please enter a date.");
+                    System.out.println("It's not a valid date, please enter a valid date");
                 }
             } while (wrongtext);
         } while (emgManager.searchByStartDate(start_date) == null);
@@ -496,8 +487,7 @@ public class Main {
     }
 
     private static void searchECGByStartDate() throws Exception {
-        System.out.println("Please, enter the following information: ");
-
+        System.out.println("Please, enter the following information");
         Date start_date = null;
         String date = reader.readLine();
         boolean wrongtext = false;
@@ -509,7 +499,7 @@ public class Main {
                     wrongtext = false;
                 } catch (NumberFormatException ex) {
                     wrongtext = true;
-                    System.out.println("It's not a date, please enter a date.");
+                    System.out.println("It's not a valid date, please enter a valid date");
                 }
             } while (wrongtext);
         } while (ecgManager.searchByStartDate(start_date) == null);
@@ -521,10 +511,9 @@ public class Main {
     }
 
     private static void addEMG() throws Exception {
-        System.out.println("Please, enter the following information: ");
+        System.out.println("Please, enter the following information");
         System.out.println("Name: ");
         String name = reader.readLine();
-
         System.out.println("Start_date: ");
         Date start_date = null;
         String date = reader.readLine();
@@ -536,7 +525,7 @@ public class Main {
                 wrongtext = false;
             } catch (NumberFormatException ex) {
                 wrongtext = true;
-                System.out.println("It's not a date, please enter a date.");
+                System.out.println("It's not a valid date, please enter a valid date");
             }
         } while (wrongtext);
 
@@ -545,7 +534,7 @@ public class Main {
     }
 
     private static void addECG() throws Exception {
-        System.out.println("Please, enter the following information: ");
+        System.out.println("Please, enter the following information");
         System.out.println("Name: ");
         String name = reader.readLine();
 
@@ -560,7 +549,7 @@ public class Main {
                 wrongtext = false;
             } catch (NumberFormatException ex) {
                 wrongtext = true;
-                System.out.println("It's not a date, please enter a date.");
+                System.out.println("It's not a valid date, please enter a valid date");
             }
         } while (wrongtext);
 

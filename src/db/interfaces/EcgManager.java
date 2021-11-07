@@ -9,15 +9,14 @@ import java.sql.Date;
 import java.util.List;
 import pojos.Ecg;
 
-/**
- *
- * @author RAQUEL
- */
 public interface EcgManager {
-    public List<Ecg> searchByName(String name_ecg);
-    public List<Ecg> searchByStartDate(Date start_date);
-    public void add(Ecg ecg);
-    public void delete(Integer ecg_id);
-    
-}
 
+    public List<Ecg> searchByName(String name_ecg);
+
+    public List<Ecg> searchByStartDate(Date start_date);
+
+    public void add(Ecg ecg);
+
+    public void delete(Integer ecg_id);
+
+}

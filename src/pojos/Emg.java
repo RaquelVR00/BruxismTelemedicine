@@ -7,12 +7,7 @@ package pojos;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Objects;
 
-/**
- *
- * @author RAQUEL
- */
 public class Emg implements Serializable {
 
     private Integer id;
@@ -38,8 +33,9 @@ public class Emg implements Serializable {
         this.finish_date = finish_date;
     }
 
-    public Emg(String name, Date start_date) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Emg(String name_emg, Date start_date) {
+        this.name_emg = name_emg;
+        this.start_date = start_date;
     }
 
     public Date getStart_date() {
@@ -111,7 +107,6 @@ public class Emg implements Serializable {
         }
         return true;
     }*/
-
     @Override
     public String toString() {
         return "Emg{" + "id=" + id + ", name_emg=" + name_emg + ", start_date=" + start_date + ", finish_date=" + finish_date + '}';

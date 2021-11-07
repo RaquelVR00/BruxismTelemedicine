@@ -14,12 +14,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 import pojos.Ecg;
-import pojos.Patient;
 
-/**
- *
- * @author RAQUEL
- */
 public class SQLiteEcgManager implements EcgManager {
 
     private Connection c;
