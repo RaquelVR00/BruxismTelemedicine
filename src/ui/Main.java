@@ -238,7 +238,7 @@ public class Main {
                     searchECGByStartDate();
                     break;
                 case 7:
-                    searchFormByName();
+                    //searchFormByName();
                     break;
                 case 8:
                     //deletePatient();
@@ -337,22 +337,20 @@ public class Main {
 
     }
 
-    private static void searchFormByName() throws Exception {
+    private static void searchFormByName(Patient patient) throws Exception {
+        reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please, enter the following information: ");
         System.out.println("Enter the name of the patient you want to search: ");
         String name = reader.readLine();
-        List<Patient> patientList = patientManager.searchByName(name);
-        for (Patient patient : patientList) {
-            if (patient.getFullName().equalsIgnoreCase(name)) {
-                System.out.println("Enter the desired name of the file (fileName.txt):");
-                String fileName = reader.readLine();
-                Path path = Paths.get(fileName);
-                Files.write(path, patient.getPatientForm());
-            } else {
-                System.out.println("There is no patient with the name " + name);
-            }
-        }
 
+        if (patient.getFullName().equalsIgnoreCase(name)) {
+            System.out.println("Enter the desired name of the file (fileName.txt):");
+            String fileName = reader.readLine();
+            Path path = Paths.get(fileName);
+            Files.write(path, patient.getPatientForm());
+        } else {
+            System.out.println("There is no patient with the name " + name);
+        }
     }
 
     private static void patientMenu() throws Exception {
@@ -380,7 +378,7 @@ public class Main {
             } while (choice < 0 || choice > 8 || wrongtext);
             switch (choice) {
                 case 1:
-                    completeForm();
+                    //completeForm();
                     break;
                 case 2:
                     addEMG();
@@ -407,7 +405,7 @@ public class Main {
         }
     }
 
-    private static void completeForm() throws Exception {
+    private static void completeForm(Patient patient) throws Exception {
         System.out.println("Please answer the following questions.");
         System.out.println("For each question, enter a number between 0 (not likely) to 10 (very likely):");
         Integer q1 = getIntFromKeyboard1to10("1. Do you have difficulty or pain when opening your mouth, for example, when yawning?");
@@ -456,9 +454,6 @@ public class Main {
             printWriter.print("\n19. Do your teeth or gums feel sore when you wake up in the morning? -> " + q19.toString());
             printWriter.print("\n20. Have you noticed that you have considerable wear on your teeth? -> " + q20.toString());
 
-            System.out.println("Form saved successfully.");
-            byte[] patient_form = Files.readAllBytes(Paths.get("patient_form.txt"));
-
         } catch (IOException ex) {
             System.out.println("There was an error while saving.");
 
@@ -468,6 +463,10 @@ public class Main {
             }
 
         }
+        System.out.println("Form saved successfully.");
+        String filePath = "patient_form.txt";
+        byte[] patient_form = Files.readAllBytes(Paths.get(filePath));
+        patient.setPatientForm(patient_form);
 
     }
 
