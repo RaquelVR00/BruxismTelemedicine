@@ -20,6 +20,9 @@ import db.jpa.JPAUserManager;
 import pojos.*;
 import db.sqlite.SQLiteManager;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import java.sql.*;
 import pojos.users.Role;
@@ -197,11 +200,11 @@ public class Main {
             System.out.println("4. Search EMG by start Date");
             System.out.println("5. Search ECG by name");
             System.out.println("6. Search ECG by start Date");
-            //System.out.println("2. Search Form by name");
-            System.out.println("7. Delete patient");
-            System.out.println("8. Change your userName");
-            System.out.println("9. Change your password");
-            System.out.println("10. Go back");
+            System.out.println("7. Search Form by name");
+            System.out.println("8. Delete patient");
+            System.out.println("9. Change your userName");
+            System.out.println("10. Change your password");
+            System.out.println("11. Go back");
             Integer choice = new Integer(0);
             boolean wrongtext = false;
             do {
@@ -235,16 +238,19 @@ public class Main {
                     searchECGByStartDate();
                     break;
                 case 7:
-                    //deletePatient();
+                    searchFormByName();
                     break;
                 case 8:
+                    //deletePatient();
+                    break;
+                case 9:
                     String userName = userManager.updateUserName(doctorName);
                     doctorManager.updateUserName(doctorName, userName);
                     break;
-                case 9:
+                case 10:
                     userManager.updatePassword(doctorName);
                     break;
-                case 10:
+                case 11:
                     break;
 
             }
@@ -328,6 +334,24 @@ public class Main {
         Patient patient = patientManager.getPatient(patient_id);
 
         System.out.println("Choose a ECG");
+
+    }
+
+    private static void searchFormByName() throws Exception {
+        System.out.println("Please, enter the following information: ");
+        System.out.println("Enter the name of the patient you want to search: ");
+        String name = reader.readLine();
+        List<Patient> patientList = patientManager.searchByName(name);
+        for (Patient patient : patientList) {
+            if (patient.getFullName().equalsIgnoreCase(name)) {
+                System.out.println("Enter the desired name of the file (fileName.txt):");
+                String fileName = reader.readLine();
+                Path path = Paths.get(fileName);
+                Files.write(path, patient.getPatientForm());
+            } else {
+                System.out.println("There is no patient with the name " + name);
+            }
+        }
 
     }
 
@@ -433,6 +457,7 @@ public class Main {
             printWriter.print("\n20. Have you noticed that you have considerable wear on your teeth? -> " + q20.toString());
 
             System.out.println("Form saved successfully.");
+            byte[] patient_form = Files.readAllBytes(Paths.get("patient_form.txt"));
 
         } catch (IOException ex) {
             System.out.println("There was an error while saving.");

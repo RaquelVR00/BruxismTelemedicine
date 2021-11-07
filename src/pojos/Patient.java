@@ -20,7 +20,7 @@ public class Patient implements Serializable {
 
     private Integer id;
 
-    private String Fullname;
+    private String fullName;
 
     private Integer age;
 
@@ -35,12 +35,14 @@ public class Patient implements Serializable {
     private List<Ecg> ecg;
 
     private List<Emg> emg;
-    
+
     private String nameuser;
 
-    public Patient(Integer id, String Fullname, Integer age, Float weight, Float height, String gender, List<Ecg> ecg, List<Emg> emg) {
+    private byte[] patient_form;
+
+    public Patient(Integer id, String fullName, Integer age, Float weight, Float height, String gender, List<Ecg> ecg, List<Emg> emg) {
         this.id = id;
-        this.Fullname = Fullname;
+        this.fullName = fullName;
         this.age = age;
         this.weight = weight;
         this.height = height;
@@ -49,9 +51,9 @@ public class Patient implements Serializable {
         this.emg = emg;
     }
 
-    public Patient(Integer id, String Fullname, Integer age, Float weight, Float height, String gender) {
+    public Patient(Integer id, String fullName, Integer age, Float weight, Float height, String gender) {
         this.id = id;
-        this.Fullname = Fullname;
+        this.fullName = fullName;
         this.age = age;
         this.weight = weight;
         this.height = height;
@@ -62,15 +64,20 @@ public class Patient implements Serializable {
         return serialVersionUID;
     }
 
-    public Patient(String name, Integer age, Float weight, Float height, String gender) {
-        this.Fullname = Fullname;
+    public Patient(String fullName, Integer age, Float weight, Float height, String gender) {
+        this.fullName = fullName;
         this.age = age;
         this.weight = weight;
         this.height = height;
         this.gender = gender;
     }
 
-    public Patient(int newPatientId, String patientName, String patientAge, Float patientWeight, Float patientHeight, String patientGender, String username) {
+    public Patient(String fullName) {
+        this.fullName = fullName;
+
+    }
+
+    public Patient(int newPatientId, String fullName, String patientAge, Float patientWeight, Float patientHeight, String patientGender, String username) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -78,8 +85,8 @@ public class Patient implements Serializable {
         return id;
     }
 
-    public String getFullname() {
-        return Fullname;
+    public String getFullName() {
+        return fullName;
     }
 
     public Integer getAge() {
@@ -110,12 +117,16 @@ public class Patient implements Serializable {
         return emg;
     }
 
+    public byte[] getPatientForm() {
+        return this.patient_form;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setFullname(String Fullname) {
-        this.Fullname = Fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public void setAge(Integer age) {
@@ -145,7 +156,7 @@ public class Patient implements Serializable {
     public void setEmg(List<Emg> emg) {
         this.emg = emg;
     }
-    
+
     public String getNameuser() {
         return nameuser;
     }
@@ -154,13 +165,15 @@ public class Patient implements Serializable {
         this.nameuser = nameuser;
     }
 
+    public void setPatientForm(byte[] patient_form) {
+        this.patient_form = patient_form;
+    }
 
-    
     @Override
     public int hashCode() {
-        final int prime=31;
+        final int prime = 31;
         int result = 1;
-        result = prime * result + ((id==null) ? 0 : id.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -176,16 +189,19 @@ public class Patient implements Serializable {
             return false;
         }
         Patient other = (Patient) obj;
-        if (id==null) {
-            if (other.id !=null)
+        if (id == null) {
+            if (other.id != null) {
                 return false;
-        } else if (!id.equals(other.id))
+            }
+        } else if (!id.equals(other.id)) {
             return false;
+        }
         return true;
     }
+
     @Override
     public String toString() {
-        return "Patient{" + "id=" + id + ", Fullname=" + Fullname + ", age=" + age + ", weight=" + weight + ", height=" + height + ", gender=" + gender + ", doctors=" + doctors + '}';
+        return "Patient{" + "id=" + id + ", Fullname=" + fullName + ", age=" + age + ", weight=" + weight + ", height=" + height + ", gender=" + gender + ", doctors=" + doctors + '}';
     }
 
     public static void main(String[] args) {
