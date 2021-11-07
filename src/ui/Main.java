@@ -19,10 +19,12 @@ import db.jpa.JPAUserManager;
 
 import pojos.*;
 import db.sqlite.SQLiteManager;
+import java.io.PrintWriter;
 
 import java.sql.*;
 import pojos.users.Role;
 import pojos.users.User;
+import static utils.InputOutput.getIntFromKeyboard1to10;
 
 public class Main {
 
@@ -43,7 +45,7 @@ public class Main {
     public static String numbers = "0123456789";
     public static String caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public static String low_case = "abcdefghijklmnopqrstuvwxyz";
-   
+
     public static void main(String[] args) throws Exception {
         // In order to connect with the DB
         dbManager = new SQLiteManager();
@@ -99,9 +101,8 @@ public class Main {
 
     }
 
-    
     private static void newRole() throws Exception {
-        String roleName="patient";
+        String roleName = "patient";
         Role role = new Role(roleName);
         userManager.createRole(role);
         roleName = "doctor";
@@ -109,7 +110,6 @@ public class Main {
         userManager.createRole(role);
         System.out.println("Roles Created!!");
     }
-     
 
     private static void newUser() throws Exception {
         List<Role> roles = userManager.getRoles();
@@ -187,8 +187,8 @@ public class Main {
             System.out.println("Invalid role.");
         }
     }
-    
-        private static void doctorMenu() throws Exception {
+
+    private static void doctorMenu() throws Exception {
         while (true) {
             System.out.println("What would you like to do?");
             System.out.println("1. Add patient");
@@ -227,31 +227,31 @@ public class Main {
                 case 4:
                     searchEMGByStartDate();
                     break;
-                    
+
                 case 5:
-                    searchECGByName();
+                    //searchECGByName();
                     break;
                 case 6:
                     searchECGByStartDate();
                     break;
                 case 7:
-                    deletePatient();
+                    //deletePatient();
                     break;
                 case 8:
                     String userName = userManager.updateUserName(doctorName);
-                    doctorManager.updateUserName(doctorName,userName);
+                    doctorManager.updateUserName(doctorName, userName);
                     break;
                 case 9:
                     userManager.updatePassword(doctorName);
                     break;
                 case 10:
                     break;
-                    
 
             }
         }
     }
-        private static void addPatient() throws Exception {
+
+    private static void addPatient() throws Exception {
         System.out.println("Please, enter the following information: ");
         System.out.println("Name: ");
         String name = reader.readLine();
@@ -264,21 +264,21 @@ public class Main {
         Float height = Float.parseFloat(reader.readLine());
         System.out.println("Gender: ");
         String gender = reader.readLine();
-         
+
         Patient patient = new Patient(name, age, weight, height, gender);
-        
+
         String username = "";
         boolean distinctUser = false;
         do {
-                System.out.println("Introduce a username for the patient: ");
-                username = reader.readLine();
-                List<String> existUsernames = new ArrayList<String>();
-                existUsernames = patientManager.getUsernames();
-                if (existUsernames.contains(username)) {
-                        distinctUser = true;
-                } else {
-                        distinctUser = false;
-                }
+            System.out.println("Introduce a username for the patient: ");
+            username = reader.readLine();
+            List<String> existUsernames = new ArrayList<String>();
+            existUsernames = patientManager.getUsernames();
+            if (existUsernames.contains(username)) {
+                distinctUser = true;
+            } else {
+                distinctUser = false;
+            }
         } while (distinctUser);
 
         String UserName = username;
@@ -298,40 +298,39 @@ public class Main {
         patient.setNameuser(UserName);
         patientManager.add(patient);
     }
-    
-        private static void searchPatientByName() throws Exception {
-            System.out.println("Please, enter the following information: ");
-            System.out.println("Enter the name of the patient you want to search: ");
-            String name = reader.readLine();
-            List<Patient> patientList = patientManager.searchByName(name);
-            for (Patient patient : patientList) {
-                    System.out.println(patient);
-            }
-	}
-        
-        private static void searchEMGByName() throws Exception {
-            searchPatientByName();
-            Integer patient_id = new Integer(0);
-            boolean wrongtext = false;
-            do {
-                    System.out.println("Choose an id:  ");
-                    do {
-                            try {
-                                    patient_id = Integer.parseInt(reader.readLine());
-                                    wrongtext = false;
-                            } catch (NumberFormatException ex) {
-                                    wrongtext = true;
-                                    System.out.println("It's not a int, please enter a int.");
-                            }
-                    } while (wrongtext);
-            } while (patientManager.getPatient(patient_id) == null);
-            Patient patient = patientManager.getPatient(patient_id);
-            
-            System.out.println("Choose a ECG");
-        
-	}
 
-    
+    private static void searchPatientByName() throws Exception {
+        System.out.println("Please, enter the following information: ");
+        System.out.println("Enter the name of the patient you want to search: ");
+        String name = reader.readLine();
+        List<Patient> patientList = patientManager.searchByName(name);
+        for (Patient patient : patientList) {
+            System.out.println(patient);
+        }
+    }
+
+    private static void searchEMGByName() throws Exception {
+        searchPatientByName();
+        Integer patient_id = new Integer(0);
+        boolean wrongtext = false;
+        do {
+            System.out.println("Choose an id:  ");
+            do {
+                try {
+                    patient_id = Integer.parseInt(reader.readLine());
+                    wrongtext = false;
+                } catch (NumberFormatException ex) {
+                    wrongtext = true;
+                    System.out.println("It's not a int, please enter a int.");
+                }
+            } while (wrongtext);
+        } while (patientManager.getPatient(patient_id) == null);
+        Patient patient = patientManager.getPatient(patient_id);
+
+        System.out.println("Choose a ECG");
+
+    }
+
     private static void patientMenu() throws Exception {
         while (true) {
             System.out.println("What would you like to do?");
@@ -357,7 +356,7 @@ public class Main {
             } while (choice < 0 || choice > 8 || wrongtext);
             switch (choice) {
                 case 1:
-                    //completeForm();
+                    completeForm();
                     break;
                 case 2:
                     addEMG();
@@ -373,7 +372,7 @@ public class Main {
                     break;
                 case 6:
                     String userName = userManager.updateUserName(patientName);
-                    patientManager.updateUserName(patientName,userName);
+                    patientManager.updateUserName(patientName, userName);
                     return;
                 case 7:
                     userManager.updatePassword(patientName);
@@ -384,7 +383,68 @@ public class Main {
         }
     }
 
+    private static void completeForm() throws Exception {
+        System.out.println("Please answer the following questions.");
+        System.out.println("For each question, enter a number between 0 (not likely) to 10 (very likely):");
+        Integer q1 = getIntFromKeyboard1to10("1. Do you have difficulty or pain when opening your mouth, for example, when yawning?");
+        Integer q2 = getIntFromKeyboard1to10("2. Do you feel your jaw “sticking”, “locking” or “popping out”?");
+        Integer q3 = getIntFromKeyboard1to10("3. Do you have difficulty or pain when you chew, speak, or use your jaws?");
+        Integer q4 = getIntFromKeyboard1to10("4. Have you noticed noises in your jaw joints?");
+        Integer q5 = getIntFromKeyboard1to10("5. Do your jaws regularly feel stiff or clenched?");
+        Integer q6 = getIntFromKeyboard1to10("6. Do you have pain around your ears, temples, or cheeks?");
+        Integer q7 = getIntFromKeyboard1to10("7. Do you have frequent headaches or neck pain?");
+        Integer q8 = getIntFromKeyboard1to10("8. Have you had a recent injury or trauma to your head, neck, or jaw?");
+        Integer q9 = getIntFromKeyboard1to10("9. Have you noticed or felt any recent change in your bite?");
+        Integer q10 = getIntFromKeyboard1to10("10. Have you ever been treated for a jaw joint problem?");
+        Integer q11 = getIntFromKeyboard1to10("11. Have you noticed that you grind or clench your teeth frequently during sleep?");
+        Integer q12 = getIntFromKeyboard1to10("12. Has anyone heard you grind your teeth at night?");
+        Integer q13 = getIntFromKeyboard1to10("13. Did your jaw feel sore or fatigued when you woke up in the morning?");
+        Integer q14 = getIntFromKeyboard1to10("14. Do you ever have a momentary headache when you wake up in the morning?");
+        Integer q15 = getIntFromKeyboard1to10("15. Have you noticed that you grind/clench your teeth during the day?");
+        Integer q16 = getIntFromKeyboard1to10("16. Do you have difficulty opening your mouth wide when you wake up?");
+        Integer q17 = getIntFromKeyboard1to10("17. Do you feel pain in your teeth when they come in contact with cold air or liquids?");
+        Integer q18 = getIntFromKeyboard1to10("18. Do you feel your jaw joint lock or make a clicking sound when you move it?");
+        Integer q19 = getIntFromKeyboard1to10("19. Do your teeth or gums feel sore when you wake up in the morning?");
+        Integer q20 = getIntFromKeyboard1to10("20. Have you noticed that you have considerable wear on your teeth?");
 
+        File file = new File("patient_form.txt");
+        PrintWriter printWriter = null;
+        try {
+            printWriter = new PrintWriter(file);
+            printWriter.print("1. Do you have difficulty or pain when opening your mouth, for example, when yawning? -> " + q1.toString());
+            printWriter.print("\n2. Do you feel your jaw “sticking”, “locking” or “popping out”? -> " + q2.toString());
+            printWriter.print("\n3. Do you have difficulty or pain when you chew, speak, or use your jaws? -> " + q3.toString());
+            printWriter.print("\n4. Have you noticed noises in your jaw joints? -> " + q4.toString());
+            printWriter.print("\n5. Do your jaws regularly feel stiff or clenched? -> " + q5.toString());
+            printWriter.print("\n6. Do you have pain around your ears, temples, or cheeks? -> " + q6.toString());
+            printWriter.print("\n7. Do you have frequent headaches or neck pain? -> " + q7.toString());
+            printWriter.print("\n8. Have you had a recent injury or trauma to your head, neck, or jaw? -> " + q8.toString());
+            printWriter.print("\n9. Have you noticed or felt any recent change in your bite? -> " + q9.toString());
+            printWriter.print("\n10. Have you ever been treated for a jaw joint problem? -> " + q10.toString());
+            printWriter.print("\n11. Have you noticed that you grind or clench your teeth frequently during sleep? -> " + q11.toString());
+            printWriter.print("\n12. Has anyone heard you grind your teeth at night? -> " + q12.toString());
+            printWriter.print("\n13. Did your jaw feel sore or fatigued when you woke up in the morning? -> " + q13.toString());
+            printWriter.print("\n14. Do you ever have a momentary headache when you wake up in the morning? -> " + q14.toString());
+            printWriter.print("\n15. Have you noticed that you grind/clench your teeth during the day? -> " + q15.toString());
+            printWriter.print("\n16. Do you have difficulty opening your mouth wide when you wake up? -> " + q16.toString());
+            printWriter.print("\n17. Do you feel pain in your teeth when they come in contact with cold air or liquids? -> " + q17.toString());
+            printWriter.print("\n18. Do you feel your jaw joint lock or make a clicking sound when you move it? -> " + q18.toString());
+            printWriter.print("\n19. Do your teeth or gums feel sore when you wake up in the morning? -> " + q19.toString());
+            printWriter.print("\n20. Have you noticed that you have considerable wear on your teeth? -> " + q20.toString());
+
+            System.out.println("Form saved successfully.");
+
+        } catch (IOException ex) {
+            System.out.println("There was an error while saving.");
+
+        } finally {
+            if (printWriter != null) {
+                printWriter.close();
+            }
+
+        }
+
+    }
 
     private static void searchEMGByStartDate() throws Exception {
         System.out.println("Please, enter the following information: ");
@@ -410,8 +470,7 @@ public class Main {
             System.out.println(emg);
         }
     }
-    
-    
+
     private static void searchECGByStartDate() throws Exception {
         System.out.println("Please, enter the following information: ");
 
@@ -460,6 +519,7 @@ public class Main {
         Emg emg = new Emg(name, start_date);
         emgManager.add(emg);
     }
+
     private static void addECG() throws Exception {
         System.out.println("Please, enter the following information: ");
         System.out.println("Name: ");
@@ -483,22 +543,23 @@ public class Main {
         Ecg ecg = new Ecg(name, start_date);
         ecgManager.add(ecg);
     }
-    
+
     public static String getPassword(int length) {
-		return getPassword(numbers + caps + low_case, length);
-	}
+        return getPassword(numbers + caps + low_case, length);
+    }
 
-	public static String getPassword(String key, int length) {
-		String pswd = "";
+    public static String getPassword(String key, int length) {
+        String pswd = "";
 
-		for (int i = 0; i < length; i++) {
-			pswd += (key.charAt((int) (Math.random() * key.length())));
-		}
+        for (int i = 0; i < length; i++) {
+            pswd += (key.charAt((int) (Math.random() * key.length())));
+        }
 
-		return pswd;
-	}
+        return pswd;
+    }
 
-	public static String getPassword() {
-		return getPassword(8);
-	}
+    public static String getPassword() {
+        return getPassword(8);
+    }
+
 }
