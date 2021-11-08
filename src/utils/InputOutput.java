@@ -19,7 +19,7 @@ public class InputOutput {
                 System.out.println(question);
                 String cadena = consola.readLine();
                 readInt = Integer.parseInt(cadena);
-                if (readInt < 1 | readInt > 10) {
+                if (readInt < 1 || readInt > 10) {
                     throw new NumberFormatException("You must enter an integer between 1 and 10.");
                 }
                 return readInt;
