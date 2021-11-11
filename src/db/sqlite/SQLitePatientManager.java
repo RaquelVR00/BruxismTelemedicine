@@ -55,7 +55,7 @@ public class SQLitePatientManager implements PatientManager {
                     + "gender) "
                     + "VALUES (?,?,?,?,?,?)";
             PreparedStatement prep = c.prepareStatement(sql);
-            prep.setString(1, patient.getFullName());
+            prep.setString(1, patient.getFull_name());
             prep.setInt(2, patient.getAge());
             prep.setFloat(3, patient.getWeight());
             prep.setFloat(4, patient.getHeight());
@@ -131,13 +131,7 @@ public class SQLitePatientManager implements PatientManager {
                     newPatient.setNameuser(username);
                     patientCreated = true;
                 }
-                int emgId = rs.getInt(8);
-                String emgName = rs.getString(9);
-                Float price = rs.getFloat(10);
-                String supplier = rs.getString(11);
-                int numberComponents = rs.getInt(12);
-                Component newComponent = new Component(componentId, componentName, price, supplier, numberComponents);
-                componentsList.add(newComponent);
+               
             }
         } catch (SQLException e) {
             e.printStackTrace();

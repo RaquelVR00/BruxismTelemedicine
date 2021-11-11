@@ -98,5 +98,27 @@ public class SQLiteEcgManager implements EcgManager {
         } catch (SQLException e) {
         }
     }
+    
+    public List<Ecg> getECGpatient(Integer patient_id){
+        List<Ecg> ecgsList = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM emg WHERE patient_id LIKE ?";
+            PreparedStatement prep = c.prepareStatement(sql);
+            prep.setString(1, "%" + patient_id + "%");
+            ResultSet rs = prep.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String ecgName = rs.getString("name_emg");
+                Date ecgStart_date = rs.getDate("start_date");
+                Date ecgFinish_date = rs.getDate("finish_date");
+
+                Ecg newecg = new Ecg(id, ecgName, ecgStart_date, patient_id);
+                ecgsList.add(newecg);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ecgsList;
+    }
 
 }

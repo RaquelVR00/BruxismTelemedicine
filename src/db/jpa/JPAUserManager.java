@@ -17,6 +17,9 @@ import javax.persistence.Query;
 import pojos.users.Role;
 import pojos.users.User;
 import db.interfaces.UserManager;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class JPAUserManager implements UserManager {
 
@@ -90,11 +93,72 @@ public class JPAUserManager implements UserManager {
 
     @Override
     public String updateUsername(String username) {
-        return null;
+        System.out.println(username);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Query q1 = em.createNativeQuery("SELECT * FROM users WHERE USERNAME = ?", User.class);
+        q1.setParameter(1, username);
+        User user = (User) q1.getSingleResult();
+        System.out.println(user);
+        System.out.print("Type your new username:");
+        String newName = "";
+        try {
+                newName = reader.readLine();
+        } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+        }
+        // Begin transaction
+        em.getTransaction().begin();
+        // Make changes
+        user.setName_user(newName);
+        // End transaction
+        em.getTransaction().commit();
+        return newName;
+   
     }
 
     @Override
     public void updatePassword(String username) {
-    }
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Query q2 = em.createNativeQuery("SELECT * FROM users WHERE USERNAME = ?", User.class);
+        q2.setParameter(1, username);
+        User user = (User) q2.getSingleResult();
+        System.out.print("Type your new password:");
+        String newPassword = "";
+        try {
+                newPassword = reader.readLine();
+        } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+        }
+        MessageDigest md = null;
+        try {
+                md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+        }
+        md.update(newPassword.getBytes());
+        byte[] hash = md.digest();
+        // Begin transaction
+        em.getTransaction().begin();
+        // Make changes
+        user.setPassword(hash);
+        // End transaction
+        em.getTransaction().commit();
 
+    }
+    
+    public void deletePatient(String name) {
+        Query q2 = em.createNativeQuery("SELECT * FROM users WHERE USERNAME = ?", User.class);
+        System.out.println(name);
+        q2.setParameter(1, name);
+        User poorGuy = (User) q2.getSingleResult();
+        // Begin transaction
+        em.getTransaction().begin();
+        // Store the object
+        em.remove(poorGuy);
+        // End transaction
+        em.getTransaction().commit();
+	}
 }

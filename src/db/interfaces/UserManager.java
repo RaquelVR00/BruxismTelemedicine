@@ -28,5 +28,7 @@ public interface UserManager {
     public String updateUsername(String username);
 
     public void updatePassword(String username);
+    
+    public void deletePatient(String username);
 
 }

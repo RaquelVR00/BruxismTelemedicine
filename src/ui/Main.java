@@ -218,38 +218,63 @@ public class Main {
                     searchPatientByName();
                     break;
                 case 3:
-                    searchEMGByName();
+                    searchEMGByPatient();
                     break;
                 case 4:
                     searchEMGByStartDate();
                     break;
 
                 case 5:
-                    //searchECGByName();
+                    searchECGByPatient();
                     break;
+                
                 case 6:
-                    searchECGByStartDate();
-                    break;
-                case 7:
                     //searchFormByName();
                     break;
-                case 8:
-                    //deletePatient();
+                case 7:
+                    deletePatient();
                     break;
-                case 9:
+                case 8:
                     String userName = userManager.updateUsername(doctorName);
                     doctorManager.updateUsername(doctorName, userName);
                     break;
-                case 10:
+                case 9:
                     userManager.updatePassword(doctorName);
                     break;
-                case 11:
+                case 10:
                     break;
 
             }
         }
     }
+    
+    
+    private static void deletePatient() throws Exception {
+        searchPatientByName();   
+        // System.out.println("Choose a worker to delete, type its ID: ");
+        Integer patient_id = new Integer(0);
+        boolean wrongtext = false;
+        do {
+            System.out.println("Choose a patient to delete, type its ID: ");
+            do {
+                    try {
+                            patient_id = Integer.parseInt(reader.readLine());
+                            wrongtext = false;
+                    } catch (NumberFormatException ex) {
+                            wrongtext = true;
+                            System.out.println("It's not a int, please enter a int.");
+                    }
+            } while (wrongtext);
+        } while (patientManager.getPatient(patient_id) == null);
+        Patient patient = patientManager.getPatient(patient_id);
 
+        String name = patient.getNameuser();
+        System.out.println(name);
+        userManager.deletePatient(name);
+        patientManager.delete(patient_id);
+        System.out.println("Deletion finished.");
+    
+    }
     private static void addPatient() throws Exception {
         System.out.println("Please, enter the following information: ");
         System.out.println("Name: ");
@@ -307,7 +332,7 @@ public class Main {
         }
     }
 
-    private static void searchEMGByName() throws Exception {
+    private static void searchEMGByPatient() throws Exception {
         searchPatientByName();
         Integer patient_id = new Integer(0);
         boolean wrongtext = false;
@@ -327,9 +352,138 @@ public class Main {
         for (Emg emg : emgList) {
             System.out.println(emg);
         }
-        System.out.println("Choose an ECG: ");
+        System.out.println("1. Search by name of ECG ");
+        System.out.println("2. Finish search ");
+        Integer choice = new Integer(0);
+        wrongtext = false;
+        do {
+            System.out.println("Introduce the number of the option you would like to choose: ");
+            try {
+                choice = Integer.parseInt(reader.readLine());
+                wrongtext = false;
+            } catch (NumberFormatException ex) {
+                wrongtext = true;
+                System.out.println("It's not an int, please enter an int");
+            }
+        } while (choice < 1 || choice > 2 || wrongtext);
+        switch (choice) {
+            case 1:
+                searchEMGByName(emgList);
+                break;
+            case 2:
+                searchPatientByName();
+                break;
+
+        }
+        
         
 
+    }
+    
+    public static void searchEMGByName(List<Emg> emgList) throws Exception{
+        String month;
+        int day;
+        System.out.println("Introduce the month");
+        month = reader.readLine();
+        System.out.println("Introduce day");
+        day = Integer.parseInt(reader.readLine());
+        
+        String name_emg = day + month ;
+        String name_select;
+        for (Emg emg  : emgList) {
+             name_select = emg.getName_emg();
+             if (name_select.contains(name_emg)){
+                System.out.println(name_select);
+             }
+        } 
+        
+        System.out.println("Introduce the number of the emg");
+        int position = Integer.parseInt(reader.readLine());
+        name_emg = day + month + "_" + position ; 
+        for (Emg emg : emgList){
+            name_select = emg.getName_emg();
+             if (name_select == name_emg){
+                System.out.println(emg);
+             }
+        }
+        
+    }
+    
+    private static void searchECGByPatient() throws Exception {
+        searchPatientByName();
+        Integer patient_id = new Integer(0);
+        boolean wrongtext = false;
+        do {
+            System.out.println("Choose an id: ");
+            do {
+                try {
+                    patient_id = Integer.parseInt(reader.readLine());
+                    wrongtext = false;
+                } catch (NumberFormatException ex) {
+                    wrongtext = true;
+                    System.out.println("It's not an int, please enter an int");
+                }
+            } while (wrongtext);
+        } while (ecgManager.getECGpatient(patient_id) == null);
+        List<Ecg> ecgList = ecgManager.getECGpatient(patient_id);
+        for (Ecg ecg : ecgList) {
+            System.out.println(ecg);
+        }
+        System.out.println("1. Search by name of ECG ");
+        System.out.println("2. Finish search ");
+        Integer choice = new Integer(0);
+        wrongtext = false;
+        do {
+            System.out.println("Introduce the number of the option you would like to choose: ");
+            try {
+                choice = Integer.parseInt(reader.readLine());
+                wrongtext = false;
+            } catch (NumberFormatException ex) {
+                wrongtext = true;
+                System.out.println("It's not an int, please enter an int");
+            }
+        } while (choice < 1 || choice > 2 || wrongtext);
+        switch (choice) {
+            case 1:
+                searchECGByName(ecgList);
+                break;
+            case 2:
+                searchPatientByName();
+                break;
+
+        }
+        
+        
+
+    }
+    
+    public static void searchECGByName(List<Ecg> ecgList) throws Exception{
+        String month;
+        int day;
+        System.out.println("Introduce the month");
+        month = reader.readLine();
+        System.out.println("Introduce day");
+        day = Integer.parseInt(reader.readLine());
+        
+        String name_ecg = day + month ;
+        String name_select;
+        for (Ecg ecg  : ecgList) {
+             name_select = ecg.getName_ecg();
+             if (name_select.contains(name_ecg)){
+                System.out.println(name_select);
+             }
+        } 
+        
+        System.out.println("Introduce the number of the emg");
+        int position = Integer.parseInt(reader.readLine());
+        name_ecg = day + month + "_" + position ; 
+        for (Ecg ecg : ecgList){
+            name_select = ecg.getName_ecg();
+             if (name_select == name_ecg){
+                System.out.println(ecg);
+             }
+        }
+        
     }
 
     private static void searchFormByName(Patient patient) throws Exception {
@@ -373,7 +527,7 @@ public class Main {
             } while (choice < 0 || choice > 8 || wrongtext);
             switch (choice) {
                 case 1:
-                    //completeForm();
+                    completeForm();
                     break;
                 case 2:
                     addEMG();
@@ -400,7 +554,10 @@ public class Main {
         }
     }
 
-    private static void completeForm(Patient patient) throws Exception {
+    private static void completeForm() throws Exception {
+        Integer patient_id = patientManager.searchByUsername(patientName);
+        Patient patient = patientManager.getPatient(patient_id);
+
         System.out.println("Please answer the following questions.");
         System.out.println("For each question, enter a number between 1 (not likely) to 10 (very likely)");
         Integer q1 = getIntFromKeyboard1to10("1. Do you have difficulty or pain when opening your mouth, for example, when yawning?");

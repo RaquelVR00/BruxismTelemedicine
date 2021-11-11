@@ -13,13 +13,13 @@ public class User implements Serializable {
     private static final long serialVersionUID = -7993095458725676766L;
 
     private Integer id;
-    private String email;
+    private String name_user;
     private byte[] password;
     private Role role;
 
     public User(String email, byte[] password, Role role) {
         super();
-        this.email = email;
+        this.name_user = name_user;
         this.password = password;
         this.role = role;
     }
@@ -32,12 +32,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getName_user() {
+        return name_user;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setName_user(String name_user) {
+        this.name_user = name_user;
     }
 
     public byte[] getPassword() {
@@ -64,7 +64,7 @@ public class User implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((name_user == null) ? 0 : name_user.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + Arrays.hashCode(password);
         result = prime * result + ((role == null) ? 0 : role.hashCode());
@@ -83,11 +83,11 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) obj;
-        if (email == null) {
-            if (other.email != null) {
+        if (name_user == null) {
+            if (other.name_user != null) {
                 return false;
             }
-        } else if (!email.equals(other.email)) {
+        } else if (!name_user.equals(other.name_user)) {
             return false;
         }
         if (id == null) {
@@ -112,7 +112,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", email=" + email + ", password=" + Arrays.toString(password) + ", role=" + role
+        return "User [id=" + id + ", email=" + name_user + ", password=" + Arrays.toString(password) + ", role=" + role
                 + "]";
     }
 

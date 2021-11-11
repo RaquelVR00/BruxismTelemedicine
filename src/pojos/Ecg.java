@@ -29,6 +29,13 @@ public class Ecg implements Serializable {
         this.start_date = start_date;
         this.patient_id = patient_id;
     }
+
+    public Ecg(Integer id, String name_ecg, Date start_date, Integer patient_id) {
+        this.id = id;
+        this.name_ecg = name_ecg;
+        this.start_date = start_date;
+        this.patient_id = patient_id;
+    }
     
     
 

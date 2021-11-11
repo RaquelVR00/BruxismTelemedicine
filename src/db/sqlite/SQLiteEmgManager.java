@@ -36,6 +36,7 @@ public class SQLiteEmgManager implements EmgManager {
                 String emgName = rs.getString("name_emg");
                 Date emgStart_date = rs.getDate("start_date");
                 Date emgFinish_date = rs.getDate("finish_date");
+                
 
                 Emg newemg = new Emg(id, emgName, emgStart_date,
                         emgFinish_date);

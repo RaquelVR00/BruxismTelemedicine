@@ -8,6 +8,7 @@ package db.interfaces;
 import java.sql.Date;
 import java.util.List;
 import pojos.Ecg;
+import pojos.Emg;
 
 public interface EcgManager {
 
@@ -18,5 +19,8 @@ public interface EcgManager {
     public void add(Ecg ecg);
 
     public void delete(Integer ecg_id);
+    
+    public List<Ecg> getECGpatient(Integer patient_id);
+
 
 }
