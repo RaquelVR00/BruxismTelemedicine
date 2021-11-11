@@ -98,5 +98,27 @@ public class SQLiteEmgManager implements EmgManager {
         } catch (SQLException e) {
         }
     }
+    
+    public List<Emg> getEMGpatient(Integer patient_id){
+        List<Emg> emgsList = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM emg WHERE patient_id LIKE ?";
+            PreparedStatement prep = c.prepareStatement(sql);
+            prep.setString(1, "%" + patient_id + "%");
+            ResultSet rs = prep.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String emgName = rs.getString("name_emg");
+                Date emgStart_date = rs.getDate("start_date");
+                Date emgFinish_date = rs.getDate("finish_date");
+
+                Emg newemg = new Emg(id, emgName, emgStart_date, patient_id);
+                emgsList.add(newemg);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return emgsList;
+    }
 
 }

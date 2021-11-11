@@ -122,12 +122,12 @@ public class SQLitePatientManager implements PatientManager {
                 if (!patientCreated) {
                     int newPatientId = rs.getInt(1);
                     String patientName = rs.getString(2);
-                    String patientAge = rs.getString(3);
+                    Integer patientAge = rs.getInt(3);
                     Float patientWeight = rs.getFloat(4);
                     Float patientHeight = rs.getFloat(5);
                     String patientGender = rs.getString(6);
                     String username = rs.getString(7);
-                    newPatient = new Patient(newPatientId, patientName, patientAge, patientWeight, patientHeight, patientGender, username);
+                    newPatient = new Patient(newPatientId, patientName, patientAge, patientWeight, patientHeight, patientGender);
                     newPatient.setNameuser(username);
                     patientCreated = true;
                 }
@@ -143,5 +143,22 @@ public class SQLitePatientManager implements PatientManager {
             e.printStackTrace();
         }
         return newPatient;
+    }
+    
+    
+    public Integer searchByUsername( String username){
+        Integer patient_id = null;
+         try {
+            String sql = "SELECT id FROM patients WHERE user_name LIKE ?";
+            PreparedStatement prep = c.prepareStatement(sql);
+            prep.setString(1, "%" + username + "%");
+            ResultSet rs = prep.executeQuery();
+            while (rs.next()) {
+               patient_id = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return patient_id;
     }
 }

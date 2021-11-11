@@ -18,5 +18,7 @@ public interface EmgManager {
     public void add(Emg emg);
 
     public void delete(Integer emg_id);
+    
+    public List<Emg> getEMGpatient(Integer patient_id);
 
 }

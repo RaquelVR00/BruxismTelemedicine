@@ -293,7 +293,7 @@ public class Main {
         // Create the user and store it
         User user = new User(UserName, hash, chosenRole);
         userManager.createUser(user);
-        patient.setName_user(UserName);
+        patient.setNameuser(UserName);
         patientManager.add(patient);
     }
 
@@ -322,9 +322,13 @@ public class Main {
                     System.out.println("It's not an int, please enter an int");
                 }
             } while (wrongtext);
-        } while (patientManager.getPatient(patient_id) == null);
-        Patient patient = patientManager.getPatient(patient_id);
+        } while (emgManager.getEMGpatient(patient_id) == null);
+        List<Emg> emgList = emgManager.getEMGpatient(patient_id);
+        for (Emg emg : emgList) {
+            System.out.println(emg);
+        }
         System.out.println("Choose an ECG: ");
+        
 
     }
 
@@ -528,8 +532,9 @@ public class Main {
                 System.out.println("It's not a valid date, please enter a valid date");
             }
         } while (wrongtext);
+        Integer patient_id = patientManager.searchByUsername(patientName);
 
-        Emg emg = new Emg(name, start_date);
+        Emg emg = new Emg(name, start_date, patient_id);
         emgManager.add(emg);
     }
 
@@ -552,8 +557,10 @@ public class Main {
                 System.out.println("It's not a valid date, please enter a valid date");
             }
         } while (wrongtext);
+        Integer patient_id = patientManager.searchByUsername(patientName);
 
-        Ecg ecg = new Ecg(name, start_date);
+        Ecg ecg = new Ecg(name, start_date, patient_id);
+
         ecgManager.add(ecg);
     }
 

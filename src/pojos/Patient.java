@@ -147,11 +147,11 @@ public class Patient implements Serializable {
         this.emg = emg;
     }
 
-    public String getName_user() {
+    public String getNameuser() {
         return name_user;
     }
 
-    public void setName_user(String name_user) {
+    public void setNameuser(String name_user) {
         this.name_user = name_user;
     }
 

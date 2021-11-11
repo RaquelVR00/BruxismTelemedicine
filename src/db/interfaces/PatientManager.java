@@ -19,6 +19,8 @@ public interface PatientManager {
     public void updateUsername(String username, String newUsername);
 
     public List<String> getUsernames();
+    
+    public Integer searchByUsername(String username);
 
     public Patient getPatient(int patient_id);
 }

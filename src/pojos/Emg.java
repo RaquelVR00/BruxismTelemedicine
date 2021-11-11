@@ -14,6 +14,31 @@ public class Emg implements Serializable {
     private String name_emg;
     private Date start_date;
     private Date finish_date;
+    private Integer patient_id;
+
+    public Emg(String name_emg, Date start_date, Integer patient_id) {
+        this.name_emg = name_emg;
+        this.start_date = start_date;
+        this.patient_id = patient_id;
+    }
+
+    public Emg(Integer id, String name_emg, Date start_date, Integer patient_id) {
+        this.id = id;
+        this.name_emg = name_emg;
+        this.start_date = start_date;
+        this.patient_id = patient_id;
+    }
+    
+    
+    public Integer getPatient_id() {
+        return patient_id;
+    }
+
+    public void setPatient_id(Integer patient_id) {
+        this.patient_id = patient_id;
+    }
+    
+    
 
     public Emg(Integer id, String name_emg) {
         this.id = id;
