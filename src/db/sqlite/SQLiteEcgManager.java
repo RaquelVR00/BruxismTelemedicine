@@ -34,11 +34,9 @@ public class SQLiteEcgManager implements EcgManager {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String ecgName = rs.getString("name_ecg");
-                Date ecgStart_date = rs.getDate("start_date");
-                Date ecgFinish_date = rs.getDate("finish_date");
+                int patient_id = rs.getInt("patient_id");
 
-                Ecg newecg = new Ecg(id, ecgName, ecgStart_date,
-                        ecgFinish_date);
+                Ecg newecg = new Ecg(id, ecgName, patient_id);
                 ecgsList.add(newecg);
             }
         } catch (SQLException e) {
@@ -46,7 +44,7 @@ public class SQLiteEcgManager implements EcgManager {
         }
         return ecgsList;
     }
-
+/*
     @Override
     public List<Ecg> searchByStartDate(Date start_date) {
         List<Ecg> ecgsList = new ArrayList<>();
@@ -70,17 +68,16 @@ public class SQLiteEcgManager implements EcgManager {
         }
         return ecgsList;
     }
-
+*/
     @Override
     public void add(Ecg ecg) {
         try {
-            String sql = "INSERT INTO ecg (name_ecg, start_date, finish_date "
+            String sql = "INSERT INTO ecg (name_ecg, patient_id "
                     + ") "
                     + "VALUES (?,?,?,?)";
             PreparedStatement prep = c.prepareStatement(sql);
             prep.setString(1, ecg.getName_ecg());
-            prep.setDate(2, ecg.getStart_date());
-            prep.setDate(3, ecg.getFinish_date());
+            prep.setInt(2, ecg.getPatient_id());
             prep.executeUpdate();
             prep.close();
         } catch (SQLException e) {
@@ -109,16 +106,19 @@ public class SQLiteEcgManager implements EcgManager {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String ecgName = rs.getString("name_emg");
-                Date ecgStart_date = rs.getDate("start_date");
-                Date ecgFinish_date = rs.getDate("finish_date");
 
-                Ecg newecg = new Ecg(id, ecgName, ecgStart_date, patient_id);
+                Ecg newecg = new Ecg(id, ecgName, patient_id);
                 ecgsList.add(newecg);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return ecgsList;
+    }
+
+    @Override
+    public List<Ecg> searchByStartDate(Date start_date) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

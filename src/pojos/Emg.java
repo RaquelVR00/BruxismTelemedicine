@@ -12,20 +12,16 @@ public class Emg implements Serializable {
 
     private Integer id;
     private String name_emg;
-    private Date start_date;
-    private Date finish_date;
     private Integer patient_id;
 
-    public Emg(String name_emg, Date start_date, Integer patient_id) {
+    public Emg(String name_emg, Integer patient_id) {
         this.name_emg = name_emg;
-        this.start_date = start_date;
         this.patient_id = patient_id;
     }
 
-    public Emg(Integer id, String name_emg, Date start_date, Integer patient_id) {
+    public Emg(Integer id, String name_emg, Integer patient_id) {
         this.id = id;
         this.name_emg = name_emg;
-        this.start_date = start_date;
         this.patient_id = patient_id;
     }
     
@@ -45,39 +41,13 @@ public class Emg implements Serializable {
         this.name_emg = name_emg;
     }
 
-    public Emg(String name_emg, Date start_date, Date finish_date) {
-        this.name_emg = name_emg;
-        this.start_date = start_date;
-        this.finish_date = finish_date;
-    }
-
+   
     public Emg(Integer id, String name_emg, Date start_date, Date finish_date) {
         this.id = id;
         this.name_emg = name_emg;
-        this.start_date = start_date;
-        this.finish_date = finish_date;
+        
     }
-
-    public Emg(String name_emg, Date start_date) {
-        this.name_emg = name_emg;
-        this.start_date = start_date;
-    }
-
-    public Date getStart_date() {
-        return start_date;
-    }
-
-    public void setStart_date(Date start_date) {
-        this.start_date = start_date;
-    }
-
-    public Date getFinish_date() {
-        return finish_date;
-    }
-
-    public void setFinish_date(Date finish_date) {
-        this.finish_date = finish_date;
-    }
+    
 
     public Integer getId() {
         return id;
@@ -132,9 +102,11 @@ public class Emg implements Serializable {
         }
         return true;
     }*/
+
     @Override
     public String toString() {
-        return "Emg{" + "id=" + id + ", name_emg=" + name_emg + ", start_date=" + start_date + ", finish_date=" + finish_date + '}';
+        return "Emg{" + "id=" + id + ", name_emg=" + name_emg + ", patient_id=" + patient_id + '}';
     }
+  
 
 }

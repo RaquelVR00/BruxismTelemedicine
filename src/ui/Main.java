@@ -190,14 +190,12 @@ public class Main {
             System.out.println("1. Add patient");
             System.out.println("2. Search patient by name");
             System.out.println("3. Search EMG by name");
-            System.out.println("4. Search EMG by start Date");
-            System.out.println("5. Search ECG by name");
-            System.out.println("6. Search ECG by start Date");
-            System.out.println("7. Search Form by name");
-            System.out.println("8. Delete patient");
-            System.out.println("9. Change your userName");
-            System.out.println("10. Change your password");
-            System.out.println("11. Go back");
+            System.out.println("4. Search ECG by name");
+            System.out.println("5. Search Form by name");
+            System.out.println("6. Delete patient");
+            System.out.println("7. Change your userName");
+            System.out.println("8. Change your password");
+            System.out.println("9. Go back");
             Integer choice = new Integer(0);
             boolean wrongtext = false;
             do {
@@ -220,28 +218,25 @@ public class Main {
                 case 3:
                     searchEMGByPatient();
                     break;
-                case 4:
-                    searchEMGByStartDate();
-                    break;
 
-                case 5:
+                case 4:
                     searchECGByPatient();
                     break;
                 
-                case 6:
+                case 5:
                     //searchFormByName();
                     break;
-                case 7:
+                case 6:
                     deletePatient();
                     break;
-                case 8:
+                case 7:
                     String userName = userManager.updateUsername(doctorName);
                     doctorManager.updateUsername(doctorName, userName);
                     break;
-                case 9:
+                case 8:
                     userManager.updatePassword(doctorName);
                     break;
-                case 10:
+                case 9:
                     break;
 
             }
@@ -368,7 +363,7 @@ public class Main {
         } while (choice < 1 || choice > 2 || wrongtext);
         switch (choice) {
             case 1:
-                searchEMGByName(emgList);
+                searchEMGByName_patient(emgList);
                 break;
             case 2:
                 searchPatientByName();
@@ -380,7 +375,7 @@ public class Main {
 
     }
     
-    public static void searchEMGByName(List<Emg> emgList) throws Exception{
+    public static void searchEMGByName_patient(List<Emg> emgList) throws Exception{
         String month;
         int day;
         System.out.println("Introduce the month");
@@ -445,7 +440,7 @@ public class Main {
         } while (choice < 1 || choice > 2 || wrongtext);
         switch (choice) {
             case 1:
-                searchECGByName(ecgList);
+                searchECGByName_patient(ecgList);
                 break;
             case 2:
                 searchPatientByName();
@@ -457,7 +452,7 @@ public class Main {
 
     }
     
-    public static void searchECGByName(List<Ecg> ecgList) throws Exception{
+    public static void searchECGByName_patient(List<Ecg> ecgList) throws Exception{
         String month;
         int day;
         System.out.println("Introduce the month");
@@ -536,10 +531,10 @@ public class Main {
                     addECG();
                     break;
                 case 4:
-                    searchEMGByStartDate();
+                    searchEMGByName();
                     break;
                 case 5:
-                    searchECGByStartDate();
+                    searchECGByName();
                     break;
                 case 6:
                     String username = userManager.updateUsername(patientName);
@@ -622,101 +617,45 @@ public class Main {
 
     }
 
-    private static void searchEMGByStartDate() throws Exception {
-        System.out.println("Please, enter the following information");
-
-        Date start_date = null;
-        String date = reader.readLine();
-        boolean wrongtext = false;
-        do {
-            System.out.println("Enter the date of the EMG: ");
-            do {
-                try {
-                    start_date = (Date) formatter.parse(date);
-                    wrongtext = false;
-                } catch (NumberFormatException ex) {
-                    wrongtext = true;
-                    System.out.println("It's not a valid date, please enter a valid date");
-                }
-            } while (wrongtext);
-        } while (emgManager.searchByStartDate(start_date) == null);
-
-        List<Emg> emgList = (List<Emg>) emgManager.searchByStartDate(start_date);
-        for (Emg emg : emgList) {
-            System.out.println(emg);
-        }
+    private static void searchECGByName() throws Exception{
+        Integer patient_id = patientManager.searchByUsername(patientName);
+        List<Ecg> ecgList = ecgManager.getECGpatient(patient_id);
+        searchECGByName_patient(ecgList);
     }
-
-    private static void searchECGByStartDate() throws Exception {
-        System.out.println("Please, enter the following information");
-        Date start_date = null;
-        String date = reader.readLine();
-        boolean wrongtext = false;
-        do {
-            System.out.println("Enter the date of the ECG: ");
-            do {
-                try {
-                    start_date = (Date) formatter.parse(date);
-                    wrongtext = false;
-                } catch (NumberFormatException ex) {
-                    wrongtext = true;
-                    System.out.println("It's not a valid date, please enter a valid date");
-                }
-            } while (wrongtext);
-        } while (ecgManager.searchByStartDate(start_date) == null);
-
-        List<Ecg> ecgList = (List<Ecg>) ecgManager.searchByStartDate(start_date);
-        for (Ecg ecg : ecgList) {
-            System.out.println(ecg);
-        }
+    
+     private static void searchEMGByName() throws Exception{
+        Integer patient_id = patientManager.searchByUsername(patientName);
+        List<Emg> emgList = emgManager.getEMGpatient(patient_id);
+        searchEMGByName_patient(emgList);
     }
-
+    
     private static void addEMG() throws Exception {
         System.out.println("Please, enter the following information");
-        System.out.println("Name: ");
-        String name = reader.readLine();
-        System.out.println("Start_date: ");
-        Date start_date = null;
-        String date = reader.readLine();
-        boolean wrongtext = false;
-        do {
-            System.out.println("Enter the start date of the EMG: ");
-            try {
-                start_date = (Date) formatter.parse(date);
-                wrongtext = false;
-            } catch (NumberFormatException ex) {
-                wrongtext = true;
-                System.out.println("It's not a valid date, please enter a valid date");
-            }
-        } while (wrongtext);
+        System.out.println("Month: ");
+        String month = reader.readLine();
+        System.out.println("Day: ");
+        String day = reader.readLine();
+        System.out.println("position: ");
+        String position = reader.readLine();
+        String name = month + day + "_" + position ;
         Integer patient_id = patientManager.searchByUsername(patientName);
 
-        Emg emg = new Emg(name, start_date, patient_id);
+        Emg emg = new Emg(name, patient_id);
         emgManager.add(emg);
     }
 
     private static void addECG() throws Exception {
         System.out.println("Please, enter the following information");
-        System.out.println("Name: ");
-        String name = reader.readLine();
-
-        System.out.println("Start_date: ");
-        Date start_date = null;
-        String date = reader.readLine();
-        boolean wrongtext = false;
-        do {
-            System.out.println("Enter the start date of the ECG: ");
-            try {
-                start_date = (Date) formatter.parse(date);
-                wrongtext = false;
-            } catch (NumberFormatException ex) {
-                wrongtext = true;
-                System.out.println("It's not a valid date, please enter a valid date");
-            }
-        } while (wrongtext);
+        System.out.println("Month: ");
+        String month = reader.readLine();
+        System.out.println("Day: ");
+        String day = reader.readLine();
+        System.out.println("position: ");
+        String position = reader.readLine();
+        String name = month + day + "_" + position ;
         Integer patient_id = patientManager.searchByUsername(patientName);
 
-        Ecg ecg = new Ecg(name, start_date, patient_id);
+        Ecg ecg = new Ecg(name, patient_id);
 
         ecgManager.add(ecg);
     }

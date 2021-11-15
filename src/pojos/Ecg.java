@@ -12,8 +12,6 @@ public class Ecg implements Serializable {
 
     private Integer id;
     private String name_ecg;
-    private Date start_date;
-    private Date finish_date;
     private Integer patient_id;
 
     public Integer getPatient_id() {
@@ -24,57 +22,15 @@ public class Ecg implements Serializable {
         this.patient_id = patient_id;
     }
 
-    public Ecg(String name_ecg, Date start_date, Integer patient_id) {
+    public Ecg(String name_ecg, Integer patient_id) {
         this.name_ecg = name_ecg;
-        this.start_date = start_date;
         this.patient_id = patient_id;
     }
 
-    public Ecg(Integer id, String name_ecg, Date start_date, Integer patient_id) {
+    public Ecg(Integer id, String name_ecg, Integer patient_id) {
         this.id = id;
         this.name_ecg = name_ecg;
-        this.start_date = start_date;
         this.patient_id = patient_id;
-    }
-    
-    
-
-    public Ecg(Integer id, String name_ecg) {
-        this.id = id;
-        this.name_ecg = name_ecg;
-    }
-
-    public Ecg(String name_ecg, Date start_date, Date finish_date) {
-        this.name_ecg = name_ecg;
-        this.start_date = start_date;
-        this.finish_date = finish_date;
-    }
-
-    public Ecg(Integer id, String name_ecg, Date start_date, Date finish_date) {
-        this.id = id;
-        this.name_ecg = name_ecg;
-        this.start_date = start_date;
-        this.finish_date = finish_date;
-    }
-
-    public Ecg(String name, Date start_date) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public Date getStart_date() {
-        return start_date;
-    }
-
-    public void setStart_date(Date start_date) {
-        this.start_date = start_date;
-    }
-
-    public Date getFinish_date() {
-        return finish_date;
-    }
-
-    public void setFinish_date(Date finish_date) {
-        this.finish_date = finish_date;
     }
 
     public Integer getId() {
@@ -130,9 +86,11 @@ public class Ecg implements Serializable {
         }
         return true;
     }*/
+
     @Override
     public String toString() {
-        return "Ecg{" + "id=" + id + ", name_ecg=" + name_ecg + ", start_date=" + start_date + ", finish_date=" + finish_date + '}';
+        return "Ecg{" + "id=" + id + ", name_ecg=" + name_ecg + ", patient_id=" + patient_id + '}';
     }
+  
 
 }
