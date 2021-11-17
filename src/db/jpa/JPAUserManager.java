@@ -15,8 +15,8 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import pojos.users.Role;
-import pojos.users.User;
 import db.interfaces.UserManager;
+import pojos.users.User;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,12 +32,12 @@ public class JPAUserManager implements UserManager {
         em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
         em.getTransaction().commit();
         List<Role> existingRoles = this.getRoles();
-        if (existingRoles.size() < 2) {
+        /*if (existingRoles.size() < 2) {
 
             this.createRole(new Role("doctor"));
             this.createRole(new Role("patient"));
 
-        }
+        }*/
     }
 
     @Override
@@ -63,14 +63,16 @@ public class JPAUserManager implements UserManager {
     public Role getRole(int id) {
         Query q = em.createNativeQuery("SELECT * FROM roles WHERE id = ?", Role.class);
         q.setParameter(1, id);
-        return (Role) q.getSingleResult();
+        Role role = (Role) q.getSingleResult();
+        return role;
 
     }
 
     @Override
     public List<Role> getRoles() {
         Query q = em.createNativeQuery("SELECT * FROM roles", Role.class);
-        return (List<Role>) q.getResultList();
+        List<Role> roles = (List<Role>) q.getResultList();
+        return roles;
     }
 
     @Override
@@ -79,7 +81,7 @@ public class JPAUserManager implements UserManager {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(password.getBytes());
             byte[] hash = md.digest();
-            Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ? AND password = ?", User.class);
+            Query q = em.createNativeQuery("SELECT * FROM users WHERE username = ? AND password = ?", User.class);
             q.setParameter(1, email);
             q.setParameter(2, hash);
             return (User) q.getSingleResult();
@@ -95,7 +97,7 @@ public class JPAUserManager implements UserManager {
     public String updateUsername(String username) {
         System.out.println(username);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Query q1 = em.createNativeQuery("SELECT * FROM users WHERE USERNAME = ?", User.class);
+        Query q1 = em.createNativeQuery("SELECT * FROM users WHERE username = ?", User.class);
         q1.setParameter(1, username);
         User user = (User) q1.getSingleResult();
         System.out.println(user);
@@ -150,7 +152,7 @@ public class JPAUserManager implements UserManager {
     }
     
     public void deletePatient(String name) {
-        Query q2 = em.createNativeQuery("SELECT * FROM users WHERE USERNAME = ?", User.class);
+        Query q2 = em.createNativeQuery("SELECT * FROM users WHERE username = ?", User.class);
         System.out.println(name);
         q2.setParameter(1, name);
         User poorGuy = (User) q2.getSingleResult();

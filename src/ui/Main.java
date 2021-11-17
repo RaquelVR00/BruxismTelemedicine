@@ -53,7 +53,7 @@ public class Main {
         dbManager.createTables();
         userManager = new JPAUserManager();
         userManager.connect();
-
+/*
         //To initialize the bufferedReader
         reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Welcome to our database!");
@@ -677,5 +677,6 @@ public class Main {
     public static String getPassword() {
         return getPassword(8);
     }
-
+*/
+    }
 }
