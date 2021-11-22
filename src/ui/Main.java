@@ -53,7 +53,7 @@ public class Main {
         dbManager.createTables();
         userManager = new JPAUserManager();
         userManager.connect();
-/*
+
         //To initialize the bufferedReader
         reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Welcome to our database!");
@@ -144,9 +144,13 @@ public class Main {
                 wrongtext = true;
                 System.out.println("It's not an int, please enter an int");
             }
-            if (roleId != 1 && roleId != 3) {
+            if (roleId != 2 && roleId != 1) {
                 System.out.println("That's not a valid ID, if you want to exit this option type 'yes': ");
                 exit = reader.readLine();
+            }
+            if (roleId == 1) {
+                System.out.println("Patients can only be created by doctors (not here). Introduce another Id: ");
+                roleId = 3;
             }
         } while (roleId != 1 && roleId != 2);
         if (exit.contentEquals("yes") || exit.contentEquals("Yes")) {
@@ -157,7 +161,14 @@ public class Main {
         User user = new User(username, hash, chosenRole);
 
         userManager.createUser(user);
+        
+        //String pharmacyName = username;
+        System.out.println("Enter your full name: ");
+        String fullname = reader.readLine();
 
+        
+        Doctor doctor = new Doctor(fullname,username);
+        doctorManager.add(doctor);
     }
 
     private static void login() throws Exception {
@@ -171,11 +182,11 @@ public class Main {
         if (user == null) {
             System.out.println("Wrong credentials, please try again!");
         } // We check the role
-        else if (user.getRole().toStringRole().equalsIgnoreCase("doctor")) {
+        else if (user.getRole().getRole().equalsIgnoreCase("doctor")) {
             System.out.println("Welcome doctor " + username + "!");
             doctorName = username;
             doctorMenu();
-        } else if (user.getRole().toStringRole().equalsIgnoreCase("patient")) {
+        } else if (user.getRole().getRole().equalsIgnoreCase("patient")) {
             System.out.println("Welcome patient " + username + "!");
             patientName = username;
             patientMenu();
@@ -207,7 +218,7 @@ public class Main {
                     wrongtext = true;
                     System.out.println("It's not an int, please enter an int");
                 }
-            } while (choice < 1 || choice > 10 || wrongtext);
+            } while (choice < 1 || choice > 9 || wrongtext);
             switch (choice) {
                 case 1:
                     addPatient();
@@ -237,7 +248,7 @@ public class Main {
                     userManager.updatePassword(doctorName);
                     break;
                 case 9:
-                    break;
+                    return;
 
             }
         }
@@ -307,7 +318,7 @@ public class Main {
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(password.getBytes());
         byte[] hash = md.digest();
-        int roleId = 2;
+        int roleId = 1;
         // Get the chosen role from the database
         Role chosenRole = userManager.getRole(roleId);
         // Create the user and store it
@@ -677,6 +688,6 @@ public class Main {
     public static String getPassword() {
         return getPassword(8);
     }
-*/
-    }
+
 }
+

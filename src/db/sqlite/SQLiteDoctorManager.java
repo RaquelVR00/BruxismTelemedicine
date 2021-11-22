@@ -46,13 +46,15 @@ public class SQLiteDoctorManager implements DoctorManager {
     @Override
     public void add(Doctor doctor) {
         try {
-            String sql = "INSERT INTO doctors (Fullname) "
-                    + "VALUES (?)";
+            String sql = "INSERT INTO doctors (Fullname,nameuser) "
+                    + "VALUES (?,?)";
             PreparedStatement prep = c.prepareStatement(sql);
             prep.setString(1, doctor.getFull_name());
+            prep.setString(2, doctor.getNameuser());
             prep.executeUpdate();
             prep.close();
         } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -71,7 +73,7 @@ public class SQLiteDoctorManager implements DoctorManager {
     @Override
     public void updateUsername(String username, String newUsername) {
         try {
-            String sql = "UPDATE doctor SET nameuser=? WHERE nameuser=?";
+            String sql = "UPDATE doctors SET nameuser=? WHERE nameuser=?";
             PreparedStatement s = c.prepareStatement(sql);
             s.setString(2, username);
             s.setString(1, newUsername);

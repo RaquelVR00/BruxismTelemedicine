@@ -52,7 +52,7 @@ public class SQLitePatientManager implements PatientManager {
     public void add(Patient patient) {
         try {
             String sql = "INSERT INTO patients (Fullname, age, weight, height, "
-                    + "gender) "
+                    + "gender,nameuser) "
                     + "VALUES (?,?,?,?,?,?)";
             PreparedStatement prep = c.prepareStatement(sql);
             prep.setString(1, patient.getFull_name());
@@ -60,9 +60,11 @@ public class SQLitePatientManager implements PatientManager {
             prep.setFloat(3, patient.getWeight());
             prep.setFloat(4, patient.getHeight());
             prep.setString(5, patient.getGender());
+            prep.setString(6, patient.getNameuser());
             prep.executeUpdate();
             prep.close();
         } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -81,7 +83,7 @@ public class SQLitePatientManager implements PatientManager {
     @Override
     public void updateUsername(String username, String newUsername) {
         try {
-            String sql = "UPDATE patient SET nameuser=? WHERE nameuser=?";
+            String sql = "UPDATE patients SET nameuser=? WHERE nameuser=?";
             PreparedStatement s = c.prepareStatement(sql);
             s.setString(2, username);
             s.setString(1, newUsername);
@@ -96,7 +98,7 @@ public class SQLitePatientManager implements PatientManager {
     public List<String> getUsernames() {
         List<String> stringList = new ArrayList<String>();
         try {
-            String sql = "SELECT nameuser FROM patient";
+            String sql = "SELECT nameuser FROM patients";
             PreparedStatement p = c.prepareStatement(sql);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {

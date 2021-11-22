@@ -122,7 +122,7 @@ public class JPAUserManager implements UserManager {
     @Override
     public void updatePassword(String username) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Query q2 = em.createNativeQuery("SELECT * FROM users WHERE USERNAME = ?", User.class);
+        Query q2 = em.createNativeQuery("SELECT * FROM users WHERE username = ?", User.class);
         q2.setParameter(1, username);
         User user = (User) q2.getSingleResult();
         System.out.print("Type your new password:");

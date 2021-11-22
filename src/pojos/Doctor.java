@@ -14,6 +14,7 @@ public class Doctor implements Serializable {
 
     private Integer id;
     private String full_name;
+    private String nameuser;
     private List<Patient> patients;
 
     public Doctor() {
@@ -33,6 +34,14 @@ public class Doctor implements Serializable {
 
     }
 
+    public Doctor(String full_name, String nameuser) {
+        this.full_name = full_name;
+        this.nameuser = nameuser;
+    }
+
+    
+
+    
     /*
     public int hashCode() {
 		final int prime = 31;
@@ -81,10 +90,20 @@ public class Doctor implements Serializable {
     public void setPatients(List<Patient> patients) {
         this.patients = patients;
     }
+    
+    
     /*
     public static void main(String[] args) {
         Doctor doctor = new Doctor(1, "my first doctor", new LinkedList());
         System.out.println("doct: " + doctor);
     }
      */
+
+    public String getNameuser() {
+        return nameuser;
+    }
+
+    public void setNameuser(String nameuser) {
+        this.nameuser = nameuser;
+    }
 }
