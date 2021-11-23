@@ -163,7 +163,7 @@ public class SQLitePatientManager implements PatientManager {
             String sql = "INSERT INTO patients (form) "
                     + "VALUES (?)";
             PreparedStatement prep = c.prepareStatement(sql);
-            prep.setBlob(1, patient.getPatient_form() );
+            prep.setBytes(1,patient.getPatient_form() );
             prep.executeUpdate();
             prep.close();
         } catch (SQLException e) {
