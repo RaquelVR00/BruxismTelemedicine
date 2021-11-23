@@ -169,6 +169,7 @@ public class Main {
         
         Doctor doctor = new Doctor(fullname,username);
         doctorManager.add(doctor);
+
     }
 
     private static void login() throws Exception {
@@ -326,6 +327,14 @@ public class Main {
         userManager.createUser(user);
         patient.setNameuser(UserName);
         patientManager.add(patient);
+        int patientId=dbManager.getLastId();
+        System.out.println(patientId);
+        int doctorId = doctorManager.getId(doctorName);
+        System.out.println(doctorId);
+        doctorManager.asign(doctorId, patientId);
+
+        
+        
     }
 
     private static void searchPatientByName() throws Exception {
@@ -586,8 +595,10 @@ public class Main {
         Integer q18 = getIntFromKeyboard1to10("18. Do you feel your jaw joint lock or make a clicking sound when you move it?");
         Integer q19 = getIntFromKeyboard1to10("19. Do your teeth or gums feel sore when you wake up in the morning?");
         Integer q20 = getIntFromKeyboard1to10("20. Have you noticed that you have considerable wear on your teeth?");
-
-        File file = new File("patient_form.txt");
+        
+       
+        String nameForm = patientName+("_form.txt");
+        File file = new File(nameForm);
         PrintWriter printWriter = null;
         try {
             printWriter = new PrintWriter(file);
@@ -622,8 +633,9 @@ public class Main {
 
         }
         System.out.println("Form saved successfully");
-        String filePath = "patient_form.txt";
+        String filePath = nameForm;
         byte[] patient_form = Files.readAllBytes(Paths.get(filePath));
+        System.out.println(patient_form);
         patient.setPatient_form(patient_form);
 
     }

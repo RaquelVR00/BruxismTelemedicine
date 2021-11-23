@@ -145,7 +145,7 @@ public class SQLitePatientManager implements PatientManager {
     public Integer searchByUsername( String username){
         Integer patient_id = null;
          try {
-            String sql = "SELECT id FROM patients WHERE user_name LIKE ?";
+            String sql = "SELECT id FROM patients WHERE nameuser LIKE ?";
             PreparedStatement prep = c.prepareStatement(sql);
             prep.setString(1, "%" + username + "%");
             ResultSet rs = prep.executeQuery();
@@ -156,5 +156,18 @@ public class SQLitePatientManager implements PatientManager {
             e.printStackTrace();
         }
         return patient_id;
+    }
+    
+    public void addForm(Patient patient){
+        try {
+            String sql = "INSERT INTO patients (form) "
+                    + "VALUES (?)";
+            PreparedStatement prep = c.prepareStatement(sql);
+            prep.setBlob(1, patient.getPatient_form() );
+            prep.executeUpdate();
+            prep.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

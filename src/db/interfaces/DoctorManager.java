@@ -17,4 +17,8 @@ public interface DoctorManager {
     public void delete(Integer doctor_id);
 
     public void updateUsername(String doctorName, String userName);
+    
+    public void asign( int doctorId, int patientId);
+    
+    public int getId(String username);
 }

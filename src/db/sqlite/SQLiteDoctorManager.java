@@ -83,5 +83,37 @@ public class SQLiteDoctorManager implements DoctorManager {
             e.printStackTrace();
         }
     }
+    
+    public void asign(int doctorId, int patientId) {
+		// Link Product and Component
+		try {
+			String sql = "INSERT INTO doctorPatients (doctorId,patientId) " + "VALUES (?,?)";
+			PreparedStatement prep = c.prepareStatement(sql);
+			prep.setInt(1, doctorId);
+			prep.setInt(2, patientId);
+			prep.executeUpdate();
+			prep.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+    
+    @Override
+    public int getId (String name) {
+        int doctorId = 0 ;
+        try {
+            String sql = "SELECT id FROM doctors WHERE nameuser LIKE ?";
+            PreparedStatement prep = c.prepareStatement(sql);
+            prep.setString(1, "%" + name + "%");
+            ResultSet rs = prep.executeQuery();
+            while (rs.next()) {
+                doctorId = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return doctorId;
+    }
+
 
 }

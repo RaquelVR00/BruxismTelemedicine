@@ -21,4 +21,5 @@ public interface DBManager {
 
     public EcgManager getEcgManager();
 
+    public int getLastId();
 }

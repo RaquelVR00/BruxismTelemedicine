@@ -67,7 +67,8 @@ public class SQLiteManager implements DBManager {
             stmt1 = c.createStatement();
             String sql2 = "CREATE TABLE patients " + "(id     INTEGER  PRIMARY KEY AUTOINCREMENT,"
                     + " Fullname   TEXT   NOT NULL," + "age INTEGER NOT NULL," + "weight FLOAT NOT NULL,"
-                    + "height FLOAT NOT NULL," + " gender TEXT NOT NULL," + " nameuser TEXT NOT NULL UNIQUE)";
+                    + "height FLOAT NOT NULL," + " gender TEXT NOT NULL," + " nameuser TEXT NOT NULL UNIQUE,"
+                    + "form BLOB )";
             stmt1.executeUpdate(sql2);
             stmt1 = c.createStatement();
             String sql3 = "CREATE TABLE doctorPatients " + "(doctorId     INTEGER  REFERENCES doctors(id) ON UPDATE CASCADE ON DELETE SET NULL, "
@@ -113,21 +114,6 @@ public class SQLiteManager implements DBManager {
         return ecg;
     }
 
-    /*
-    @Override
-    public int getLastId() {
-        int result = 0;
-        try {
-            String query = "SELECT last_insert_rowid() AS lastId";
-            PreparedStatement p = c.prepareStatement(query);
-            ResultSet rs = p.executeQuery();
-            result = rs.getInt("lastId");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-     */
     public PatientManager getPatient() {
         return patient;
     }
@@ -151,5 +137,17 @@ public class SQLiteManager implements DBManager {
     public void setEmg(EmgManager emg) {
         this.emg = emg;
     }
-
+    @Override
+    public int getLastId() {
+            int result = 0;
+            try {
+                    String query = "SELECT last_insert_rowid() AS lastId";
+                    PreparedStatement p = c.prepareStatement(query);
+                    ResultSet rs = p.executeQuery();
+                    result = rs.getInt("lastId");
+            } catch (SQLException e) {
+                    e.printStackTrace();
+            }
+            return result;
+    }
 }
