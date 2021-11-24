@@ -236,7 +236,7 @@ public class Main {
                     break;
                 
                 case 5:
-                    //searchFormByName();
+                    searchFormByName();
                     break;
                 case 6:
                     deletePatient();
@@ -501,11 +501,15 @@ public class Main {
         
     }
 
-    private static void searchFormByName(Patient patient) throws Exception {
+    private static void searchFormByName() throws Exception {
         reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please, enter the following information");
         System.out.println("Enter the name of the patient you want to search: ");
         String name = reader.readLine();
+        //Ver todos los pacientes que tiene el doctor y si alguno concuerda con el nombre que ha introducido
+        //pues se sigue adelante y si no pues va al else
+        Patient patient = null;
+        //for(Patient patient : )
 
         if (patient.getFull_name().equalsIgnoreCase(name)) {
             System.out.println("Enter the desired name of the file (fileName.txt): ");

@@ -162,6 +162,21 @@ public class SQLitePatientManager implements PatientManager {
     public void addForm(Patient patient){
         byte[] form = null;
         try {
+            String sql = "UPDATE patients SET form=? WHERE id=?";
+            PreparedStatement s = c.prepareStatement(sql);
+            s.setBytes(1, patient.getPatient_form());
+            s.setInt(2, patient.getId());
+            s.executeUpdate();
+            s.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+/*
+    @Override
+    public void addForm(Patient patient){
+        byte[] form = null;
+        try {
             String sql = "UPDATE patients SET form=? WHERE form=?";
             PreparedStatement s = c.prepareStatement(sql);
             s.setBytes(2, form);
@@ -171,5 +186,5 @@ public class SQLitePatientManager implements PatientManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
