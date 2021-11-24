@@ -158,14 +158,16 @@ public class SQLitePatientManager implements PatientManager {
         return patient_id;
     }
     
+    @Override
     public void addForm(Patient patient){
+        byte[] form = null;
         try {
-            String sql = "INSERT INTO patients (form) "
-                    + "VALUES (?)";
-            PreparedStatement prep = c.prepareStatement(sql);
-            prep.setBytes(1,patient.getPatient_form() );
-            prep.executeUpdate();
-            prep.close();
+            String sql = "UPDATE patients SET form=? WHERE form=?";
+            PreparedStatement s = c.prepareStatement(sql);
+            s.setBytes(2, form);
+            s.setBytes(1, patient.getPatient_form());
+            s.executeUpdate();
+            s.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

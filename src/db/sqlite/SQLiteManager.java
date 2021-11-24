@@ -68,7 +68,7 @@ public class SQLiteManager implements DBManager {
             String sql2 = "CREATE TABLE patients " + "(id     INTEGER  PRIMARY KEY AUTOINCREMENT,"
                     + " Fullname   TEXT   NOT NULL," + "age INTEGER NOT NULL," + "weight FLOAT NOT NULL,"
                     + "height FLOAT NOT NULL," + " gender TEXT NOT NULL," + " nameuser TEXT NOT NULL UNIQUE,"
-                    + "form BLOB )";
+                    + "form BYTES )";
             stmt1.executeUpdate(sql2);
             stmt1 = c.createStatement();
             String sql3 = "CREATE TABLE doctorPatients " + "(doctorId     INTEGER  REFERENCES doctors(id) ON UPDATE CASCADE ON DELETE SET NULL, "

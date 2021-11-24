@@ -23,4 +23,6 @@ public interface PatientManager {
     public Integer searchByUsername(String username);
 
     public Patient getPatient(int patient_id);
+    
+    public void addForm(Patient patient);
 }

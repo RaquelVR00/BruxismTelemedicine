@@ -632,11 +632,13 @@ public class Main {
             }
 
         }
-        System.out.println("Form saved successfully");
         String filePath = nameForm;
         byte[] patient_form = Files.readAllBytes(Paths.get(filePath));
         System.out.println(patient_form);
         patient.setPatient_form(patient_form);
+        patientManager.addForm(patient);
+        System.out.println("Form saved successfully");
+
 
     }
 
