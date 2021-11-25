@@ -4,14 +4,44 @@
  */
 package interfaces;
 
+import db.interfaces.DBManager;
+import db.interfaces.DoctorManager;
+import db.interfaces.EcgManager;
+import db.interfaces.EmgManager;
+import db.interfaces.PatientManager;
+import db.interfaces.UserManager;
+import db.jpa.JPAUserManager;
+import db.sqlite.SQLiteManager;
+import java.io.BufferedReader;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import pojos.Doctor;
+import pojos.users.Role;
+import pojos.users.User;
 
 /**
  *
  * @author gustavo
  */
 public class CreateLoginInterface extends javax.swing.JFrame {
-
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Each time dates are added
+    private static BufferedReader reader; // To read from the console
+    private static DBManager dbManager;
+    private static PatientManager patientManager;
+    private static DoctorManager doctorManager;
+    private static EmgManager emgManager;
+    private static EcgManager ecgManager;
+    private static UserManager userManager;
+    private static String doctorName = "";
+    private static String patientName = "";
+    public static String numbers = "0123456789";
+    public static String caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static String low_case = "abcdefghijklmnopqrstuvwxyz";
     /**
      * Creates new form CreateLoginInterface
      */
@@ -31,9 +61,10 @@ public class CreateLoginInterface extends javax.swing.JFrame {
         jScrollBar1 = new javax.swing.JScrollBar();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        signup = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        roles = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,10 +77,10 @@ public class CreateLoginInterface extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Sign Up");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        signup.setText("Sign Up");
+        signup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                signupActionPerformed(evt);
             }
         });
 
@@ -57,6 +88,13 @@ public class CreateLoginInterface extends javax.swing.JFrame {
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+
+        roles.setText("Create Roles");
+        roles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rolesActionPerformed(evt);
             }
         });
 
@@ -68,7 +106,7 @@ public class CreateLoginInterface extends javax.swing.JFrame {
                 .addGap(58, 58, 58)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(signup)
                 .addGap(47, 47, 47))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,7 +118,9 @@ public class CreateLoginInterface extends javax.swing.JFrame {
                         .addComponent(jLabel2)))
                 .addContainerGap(112, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(23, 23, 23)
+                .addComponent(roles)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addGap(26, 26, 26))
         );
@@ -94,22 +134,63 @@ public class CreateLoginInterface extends javax.swing.JFrame {
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(signup))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(roles))
                 .addGap(14, 14, 14))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.dispose();
-        PatientMenuInterface eng = new PatientMenuInterface();
-        eng.setVisible(true);
+    private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed
+        try {
+            String username = JOptionPane.showInputDialog("Introduce your Username");
+            String password = JOptionPane.showInputDialog("Introduce your Password");
+            List<Role> roles = userManager.getRoles();
+            // Create the password's hash
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] hash = md.digest();
+            String seleccion=null;
+            do{
+                seleccion = JOptionPane.showInputDialog(
+                null,
+                "Choose your role between: patient or doctor",
+                JOptionPane.QUESTION_MESSAGE);  // el icono sera un iterrogante
+        
+                if (seleccion.equals("patient")){
+                    CreateLoginInterface c = new CreateLoginInterface();
+                    JOptionPane.showMessageDialog(c, "Only doctors can create patients");
+                }
+                
+            }while(!seleccion.equals("doctor"));
+            int roleId=2;
+            Role chosenRole = userManager.getRole(roleId);
+            // Create the user and store it
+            User user = new User(username, hash, chosenRole);
+
+            userManager.createUser(user);
+        
+            //String pharmacyName = username;
+            String fullname = JOptionPane.showInputDialog("Introduce your full name");
+           
+
+        
+            Doctor doctor = new Doctor(fullname,username);
+            doctorManager.add(doctor);
+            CreateLoginInterface c = new CreateLoginInterface();
+            JOptionPane.showMessageDialog(c, "Doctor created");
+            
+            
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(CreateLoginInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_signupActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
@@ -127,6 +208,19 @@ public class CreateLoginInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void rolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rolesActionPerformed
+        // TODO add your handling code here:
+        String roleName = "patient";
+        Role role = new Role(roleName);
+        userManager.createRole(role);
+        roleName = "doctor";
+        role = new Role(roleName);
+        userManager.createRole(role);
+        CreateLoginInterface c = new CreateLoginInterface();
+        JOptionPane.showMessageDialog(c, "Role created");
+        
+    }//GEN-LAST:event_rolesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,7 +248,15 @@ public class CreateLoginInterface extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(CreateLoginInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        dbManager = new SQLiteManager();
+        dbManager.connect();
+        patientManager = dbManager.getPatientManager();
+        doctorManager = dbManager.getDoctorManager();
+        emgManager = dbManager.getEmgManager();
+        ecgManager = dbManager.getEcgManager();
+        dbManager.createTables();
+        userManager = new JPAUserManager();
+        userManager.connect();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -165,10 +267,11 @@ public class CreateLoginInterface extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollBar jScrollBar1;
+    private javax.swing.JButton roles;
+    private javax.swing.JButton signup;
     // End of variables declaration//GEN-END:variables
 }
