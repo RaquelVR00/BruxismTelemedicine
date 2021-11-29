@@ -70,7 +70,9 @@ public class Patient implements Serializable {
         this.full_name = full_name;
 
     }
-
+    public Patient(){
+        
+    }
     public Integer getId() {
         return id;
     }

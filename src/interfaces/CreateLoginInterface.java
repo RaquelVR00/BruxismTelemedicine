@@ -60,7 +60,7 @@ public class CreateLoginInterface extends javax.swing.JFrame {
 
         jScrollBar1 = new javax.swing.JScrollBar();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        login = new javax.swing.JButton();
         signup = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
@@ -70,10 +70,10 @@ public class CreateLoginInterface extends javax.swing.JFrame {
 
         jLabel1.setText("Hi! Welcome to the DataBase");
 
-        jButton1.setText("Log In");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        login.setText("Log In");
+        login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                loginActionPerformed(evt);
             }
         });
 
@@ -104,7 +104,7 @@ public class CreateLoginInterface extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(58, 58, 58)
-                .addComponent(jButton1)
+                .addComponent(login)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(signup)
                 .addGap(47, 47, 47))
@@ -133,7 +133,7 @@ public class CreateLoginInterface extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(login)
                     .addComponent(signup))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -192,17 +192,40 @@ public class CreateLoginInterface extends javax.swing.JFrame {
         
     }//GEN-LAST:event_signupActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         try {
             String username = JOptionPane.showInputDialog("Introduce your Username");
             String password = JOptionPane.showInputDialog("Introduce your Password");
-            this.setVisible(false);
-            
+            User user = userManager.checkPassword(username, password);
+        // We check if the user/password combination was OK
+        if (user == null) {
+            CreateLoginInterface c = new CreateLoginInterface();
+            JOptionPane.showMessageDialog(c, "Wrong credentials, try again");
+        } // We check the role
+        else if (user.getRole().getRole().equalsIgnoreCase("doctor")) {
+            CreateLoginInterface c = new CreateLoginInterface();
+            JOptionPane.showMessageDialog(c, "Welcome Dr "+username+"!");
+            doctorName = username;
+            DoctorMenuInterface doc = new DoctorMenuInterface();
+            doc.setVisible(true);
+            c.setVisible(false);
+        } else if (user.getRole().getRole().equalsIgnoreCase("patient")) {
+            CreateLoginInterface c = new CreateLoginInterface();
+            JOptionPane.showMessageDialog(c, "Welcome patient "+username+"!");
+            patientName = username;
+            PatientMenuInterface pat = new PatientMenuInterface();
+            pat.setVisible(true);
+            c.setVisible(false);
+        } else {
+            System.out.println("Invalid role");
         }
+    }
+            
+        
         catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Error", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_loginActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -266,11 +289,11 @@ public class CreateLoginInterface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollBar jScrollBar1;
+    private javax.swing.JButton login;
     private javax.swing.JButton roles;
     private javax.swing.JButton signup;
     // End of variables declaration//GEN-END:variables

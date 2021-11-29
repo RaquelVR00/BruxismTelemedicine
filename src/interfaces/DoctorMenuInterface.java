@@ -4,6 +4,8 @@
  */
 package interfaces;
 
+import pojos.Patient;
+
 /**
  *
  * @author gustavo
@@ -16,7 +18,7 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
     public DoctorMenuInterface() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,42 +29,47 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        addpat = new javax.swing.JButton();
+        searchbyname = new javax.swing.JButton();
+        searchEMG = new javax.swing.JButton();
+        searchECG = new javax.swing.JButton();
+        searchform = new javax.swing.JButton();
+        deletepat = new javax.swing.JButton();
+        changeusername = new javax.swing.JButton();
+        changepassword = new javax.swing.JButton();
+        back = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Hi! Doc");
 
-        jButton1.setText("Add Patient");
-
-        jButton2.setText("Search Patient by Name");
-
-        jButton3.setText("Search EMG by Name");
-
-        jButton4.setText("Search ECG by Name");
-
-        jButton5.setText("Search Form by Name");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        addpat.setText("Add Patient");
+        addpat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                addpatActionPerformed(evt);
             }
         });
 
-        jButton6.setText("Delete Patient");
+        searchbyname.setText("Search Patient by Name");
 
-        jButton7.setText("Change Username");
+        searchEMG.setText("Search EMG by Name");
 
-        jButton8.setText("Change Password");
+        searchECG.setText("Search ECG by Name");
 
-        jButton9.setText("Go back");
+        searchform.setText("Search Form by Name");
+        searchform.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchformActionPerformed(evt);
+            }
+        });
+
+        deletepat.setText("Delete Patient");
+
+        changeusername.setText("Change Username");
+
+        changepassword.setText("Change Password");
+
+        back.setText("Go back");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -73,15 +80,15 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(65, 65, 65)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(jButton1)
-                            .addComponent(jButton3)
-                            .addComponent(jButton4)
-                            .addComponent(jButton5)
-                            .addComponent(jButton6)
-                            .addComponent(jButton7)
-                            .addComponent(jButton8)
-                            .addComponent(jButton9)))
+                            .addComponent(searchbyname)
+                            .addComponent(addpat)
+                            .addComponent(searchEMG)
+                            .addComponent(searchECG)
+                            .addComponent(searchform)
+                            .addComponent(deletepat)
+                            .addComponent(changeusername)
+                            .addComponent(changepassword)
+                            .addComponent(back)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(81, 81, 81)
                         .addComponent(jLabel1)))
@@ -93,32 +100,42 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
                 .addGap(51, 51, 51)
                 .addComponent(jLabel1)
                 .addGap(41, 41, 41)
-                .addComponent(jButton1)
+                .addComponent(addpat)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(searchbyname)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addComponent(searchEMG)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4)
+                .addComponent(searchECG)
                 .addGap(18, 18, 18)
-                .addComponent(jButton5)
+                .addComponent(searchform)
                 .addGap(18, 18, 18)
-                .addComponent(jButton6)
+                .addComponent(deletepat)
                 .addGap(18, 18, 18)
-                .addComponent(jButton7)
+                .addComponent(changeusername)
                 .addGap(18, 18, 18)
-                .addComponent(jButton8)
+                .addComponent(changepassword)
                 .addGap(18, 18, 18)
-                .addComponent(jButton9)
+                .addComponent(back)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void searchformActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchformActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_searchformActionPerformed
+
+    private void addpatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addpatActionPerformed
+        // TODO add your handling code here:
+        AddPatient addpat = new AddPatient();
+        addpat.setVisible(true);
+        
+        Patient patient;
+        
+        
+    }//GEN-LAST:event_addpatActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,15 +173,15 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
+    public static javax.swing.JButton addpat;
+    private javax.swing.JButton back;
+    private javax.swing.JButton changepassword;
+    private javax.swing.JButton changeusername;
+    private javax.swing.JButton deletepat;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton searchECG;
+    private javax.swing.JButton searchEMG;
+    private javax.swing.JButton searchbyname;
+    private javax.swing.JButton searchform;
     // End of variables declaration//GEN-END:variables
 }
