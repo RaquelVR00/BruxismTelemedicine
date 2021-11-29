@@ -5,6 +5,7 @@
 package interfaces;
 
 import javax.swing.JOptionPane;
+import pojos.Patient;
 
 /**
  *
@@ -18,6 +19,11 @@ public class AddPatient extends javax.swing.JFrame {
     public AddPatient() {
         initComponents();
         
+    }
+    
+    public AddPatient(String name, String Age, String Weigth, String Height, String Gender){
+        initComponents();
+      
     }
 
     /**
@@ -178,8 +184,9 @@ public class AddPatient extends javax.swing.JFrame {
             error = true;
         }
             
-           //  Patient patient = new Patient(nombre, age, weight, height, gender);
-             //habria que meter este patient en una tabla
+        Patient patient = new Patient(nombre, age, weight, height, gender);
+       
+        
     
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -219,7 +226,7 @@ public class AddPatient extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    public static javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
