@@ -27,6 +27,9 @@ public class BitalinoDemo {
 
     public static Frame[] frame;
 
+    public static List <Integer> arrayEMG = new ArrayList <Integer>();
+    public static List <Integer> arrayECG = new ArrayList <Integer>();
+    
     public static void main(String[] args) {
 
         BITalino bitalino = null;
@@ -49,10 +52,10 @@ public class BitalinoDemo {
             
 
             String data=null;
-            List <Integer> arrayEMG = new ArrayList <Integer>();
+            //List <Integer> arrayEMG = new ArrayList <Integer>();
             //ArList <Objeto> arrayEMG_rec;
             
-            List <Integer> arrayECG = new ArrayList <Integer>();
+            //List <Integer> arrayECG = new ArrayList <Integer>();
             //ArrayList <Objeto> arrayECG_rec;
             
             
@@ -79,6 +82,8 @@ public class BitalinoDemo {
                     //String newEMG = new String(frame[i].analog[0]);
                     arrayEMG.add(frame[i].analog[0]);
                     arrayECG.add(frame[i].analog[1]);
+                    
+                    socket_bitalino();
 
                     
                 }
@@ -108,18 +113,21 @@ public class BitalinoDemo {
     }
     
     public static void socket_bitalino() throws IOException {
-        Socket socket = new Socket("localhost", 9000);
+        Socket socket = new Socket("178.96.56.1", 9000);
         OutputStream outputStream = socket.getOutputStream();
+        DataOutputStream dout;
         try {
-            List<Integer> myECG = new ArrayList();
-            outputStream = socket.getOutputStream();
-            DataOutputStream dos = new DataOutputStream(outputStream);
-            
-            for(int i = 0; i < myECG.size(); i++) {
-                System.out.println( "arrayList2[" + i + "] = " + myECG.get(i) );
+            dout = new DataOutputStream(outputStream);
+        
+            for(int i = 0; i < arrayEMG.size(); i++) {
+                dout.writeInt(arrayEMG.get(i));
             }
-                  
-            dos.writeInt(myECG.get(0));
+            dout.writeInt(-10000);
+            for(int i = 0; i < arrayECG.size(); i++) {
+                dout.writeInt(arrayECG.get(i));
+            }
+            dout.writeInt(-20000);
+            
         } catch (IOException ex) {
             Logger.getLogger(BitalinoDemo.class.getName()).log(Level.SEVERE, null, ex);
         }
