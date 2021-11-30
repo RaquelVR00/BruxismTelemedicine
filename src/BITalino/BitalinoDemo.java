@@ -2,6 +2,7 @@ package BITalino;
 
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,8 +10,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.bluetooth.RemoteDevice;
@@ -45,11 +49,11 @@ public class BitalinoDemo {
             
 
             String data=null;
-            ArrayList <Objeto> arrayEMG = new ArrayList <Objeto>();
-            ArrayList <Objeto> arrayEMG_rec;
+            List <Integer> arrayEMG = new ArrayList <Integer>();
+            //ArList <Objeto> arrayEMG_rec;
             
-            ArrayList <Objeto> arrayECG = new ArrayList <Objeto>();
-            ArrayList <Objeto> arrayECG_rec;
+            List <Integer> arrayECG = new ArrayList <Integer>();
+            //ArrayList <Objeto> arrayECG_rec;
             
             
             //read 10000 samples
@@ -72,61 +76,17 @@ public class BitalinoDemo {
                     //  + frame[i].analog[5]
                     );*/
 
-                    Objeto newEMG = new Objeto("seq: "+frame[i].seq+", EMG: "+frame[i].analog[0]);
-                    arrayECG.add(newEMG);
+                    //String newEMG = new String(frame[i].analog[0]);
+                    arrayEMG.add(frame[i].analog[0]);
+                    arrayECG.add(frame[i].analog[1]);
 
-                    Objeto newECG = new Objeto("seq: "+frame[i].seq+", ECG: "+frame[i].analog[1]);
-                    arrayECG.add(newECG);
-
-
-
-
+                    
                 }
             }
                        
             
             //stop acquisition
             bitalino.stop();
-            
-            
-             try {
-                 
-                System.out.println("Guardando EMGs en el fichero emg.txt ");
-                ObjectOutputStream File_EMG = new ObjectOutputStream(new FileOutputStream("emg.txt") );
-                File_EMG.writeObject(arrayEMG);
-                File_EMG.close();
-                
-                System.out.println("Leyendo EMGs del fichero emg.txt. ");
-                ObjectInputStream File_EMG_rec = new ObjectInputStream(new FileInputStream("emg.txt") );
-                arrayEMG_rec = ( ArrayList <Objeto> )File_EMG_rec.readObject();
-                File_EMG_rec.close();
-                
-                System.out.println("Datos leídos del fichero EMG:");
-                for(int i = 0; i < arrayEMG_rec.size(); i++) {
-                    System.out.println( arrayEMG_rec.get(i) );
-                }
-                
-                
-                
-                System.out.println("Guardando ECGs en el fichero ecg.txt ");
-                ObjectOutputStream File_ECG = new ObjectOutputStream(new FileOutputStream("ecg.txt") );
-                File_ECG.writeObject(arrayECG);
-                File_ECG.close();
-                
-                System.out.println("Leyendo ECGs del fichero ecg.txt. ");
-                ObjectInputStream File_ECG_rec = new ObjectInputStream(new FileInputStream("ecg.txt") );
-                arrayECG_rec = ( ArrayList <Objeto> )File_ECG_rec.readObject();
-                File_ECG_rec.close();
-                
-                System.out.println("Datos leídos del fichero ECG:");
-                for(int i = 0; i < arrayECG_rec.size(); i++) {
-                    System.out.println( arrayECG_rec.get(i) );
-                }
-                
-                
-            } catch (Exception e) {
-                System.out.println( e.getMessage() );
-            }
             
             
         } catch (BITalinoException ex) {
@@ -145,6 +105,24 @@ public class BitalinoDemo {
         }
         
 
+    }
+    
+    public static void socket_bitalino() throws IOException {
+        Socket socket = new Socket("localhost", 9000);
+        OutputStream outputStream = socket.getOutputStream();
+        try {
+            List<Integer> myECG = new ArrayList();
+            outputStream = socket.getOutputStream();
+            DataOutputStream dos = new DataOutputStream(outputStream);
+            
+            for(int i = 0; i < myECG.size(); i++) {
+                System.out.println( "arrayList2[" + i + "] = " + myECG.get(i) );
+            }
+                  
+            dos.writeInt(myECG.get(0));
+        } catch (IOException ex) {
+            Logger.getLogger(BitalinoDemo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
