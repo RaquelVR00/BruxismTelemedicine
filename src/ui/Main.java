@@ -66,7 +66,7 @@ public class Main {
         
         
         // System.out.println("Do you want to create the tables?");
-        /*
+   /*     
         while (true) {
             
             System.out.println("What do you want to do?");
@@ -102,8 +102,8 @@ public class Main {
             }
 
         }
-*/
 
+*/
         }
 
     private static void newRole() throws Exception {
@@ -180,6 +180,36 @@ public class Main {
         doctorManager.add(doctor);
 
     }
+    public static void newUserPatient(String response) throws Exception {
+            String name, gender, username, password;
+            String totalText[]= response.split(",");
+            name= totalText[0];
+            int age= Integer.parseInt(totalText[1]);
+            float weight= Float.parseFloat(totalText[2]);
+            float height= Float.parseFloat(totalText[3]);
+            gender= totalText[4];
+            username = totalText[5];
+            password = totalText[6];
+            int roleId= Integer.parseInt(totalText[7]);
+            
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] hash = md.digest();
+            
+            Role chosenRole = userManager.getRole(roleId);
+            // Create the user and store it
+            User user = new User(username, hash, chosenRole);
+
+            userManager.createUser(user);
+
+            
+            Patient patient = new Patient(name,age,weight,height,gender);
+            patient.setNameuser(username);
+            patientManager.add(patient);
+            
+            
+
+        }
 
     private static void login() throws Exception {
         System.out.println("Please input your credentials");
@@ -287,60 +317,7 @@ public class Main {
         System.out.println("Deletion finished.");
     
     }
-    private static void addPatient() throws Exception {
-        System.out.println("Please, enter the following information: ");
-        System.out.println("Name: ");
-        String name = reader.readLine();
-        System.out.println("Age: ");
-        Integer age = Integer.parseInt(reader.readLine());
-        System.out.println("Weight: ");
-        Float weight = Float.parseFloat(reader.readLine());
-        System.out.println("Height: ");
-        Float height = Float.parseFloat(reader.readLine());
-        System.out.println("Gender: ");
-        String gender = reader.readLine();
-
-        Patient patient = new Patient(name, age, weight, height, gender);
-
-        String username = "";
-        boolean distinctUser = false;
-        do {
-            System.out.println("Introduce a username for the patient: ");
-            username = reader.readLine();
-            List<String> existUsernames = new ArrayList<String>();
-            existUsernames = patientManager.getUsernames();
-            if (existUsernames.contains(username)) {
-                distinctUser = true;
-            } else {
-                distinctUser = false;
-            }
-        } while (distinctUser);
-
-        String UserName = username;
-        System.out.print("Password: ");
-        String password = getPassword();
-        System.out.println("The default password for a patient is: " + password);
-        // Create the password's hash
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(password.getBytes());
-        byte[] hash = md.digest();
-        int roleId = 1;
-        // Get the chosen role from the database
-        Role chosenRole = userManager.getRole(roleId);
-        // Create the user and store it
-        User user = new User(UserName, hash, chosenRole);
-        userManager.createUser(user);
-        patient.setNameuser(UserName);
-        patientManager.add(patient);
-        int patientId=dbManager.getLastId();
-        System.out.println(patientId);
-        int doctorId = doctorManager.getId(doctorName);
-        System.out.println(doctorId);
-        doctorManager.asign(doctorId, patientId);
-
-        
-        
-    }
+    
 
     private static void searchPatientByName() throws Exception {
         System.out.println("Please, enter the following information");

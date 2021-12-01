@@ -34,16 +34,17 @@ public class ServerThreadsClient implements Runnable {
         try {
             inputStream = socket.getInputStream();
             din= new DataInputStream(inputStream);
-            int choice= Character.getNumericValue(din.readInt());
+            int choice= din.readInt();
             System.out.println(choice);
         switch (choice) {
                 case 1:
-            
-                try {
-                    ui.Main.newUser();
-                } catch (Exception ex) {
-                    Logger.getLogger(ServerThreadsClient.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                   String response = din.readUTF();
+                   
+                    try {
+                        ui.Main.newUserPatient(response);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ServerThreadsClient.class.getName()).log(Level.SEVERE, null, ex);
+                    }
             
                     break;
                 case 2:
