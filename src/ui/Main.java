@@ -18,10 +18,14 @@ import db.jpa.JPAUserManager;
 import pojos.*;
 import db.sqlite.SQLiteManager;
 import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pojos.users.Role;
 import pojos.users.User;
 import static utils.InputOutput.getIntFromKeyboard1to10;
@@ -41,8 +45,9 @@ public class Main {
     public static String numbers = "0123456789";
     public static String caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public static String low_case = "abcdefghijklmnopqrstuvwxyz";
-
-    public static void main(String[] args) throws Exception {
+   
+    public static void Menu() throws Exception {
+       
         // In order to connect with the DB
         dbManager = new SQLiteManager();
         dbManager.connect();
@@ -53,12 +58,15 @@ public class Main {
         dbManager.createTables();
         userManager = new JPAUserManager();
         userManager.connect();
-
+        
         //To initialize the bufferedReader
         reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Welcome to our database!");
         newRole();
+        
+        
         // System.out.println("Do you want to create the tables?");
+        /*
         while (true) {
             
             System.out.println("What do you want to do?");
@@ -92,9 +100,11 @@ public class Main {
                 default:
                     break;
             }
-        }
 
-    }
+        }
+*/
+
+        }
 
     private static void newRole() throws Exception {
         String roleName = "patient";
@@ -106,7 +116,7 @@ public class Main {
         System.out.println("Roles Created!!");
     }
 
-    private static void newUser() throws Exception {
+    public static void newUser() throws Exception {
         List<Role> roles = userManager.getRoles();
         if (roles.isEmpty()) {
             System.out.println("There are not roles, please create the roles");
@@ -541,19 +551,19 @@ public class Main {
             } while (choice < 0 || choice > 8 || wrongtext);
             switch (choice) {
                 case 1:
-                    completeForm();
+               //     completeForm();
                     break;
                 case 2:
-                    addEMG();
+                 //   addEMG();
                     break;
                 case 3:
-                    addECG();
+                   // addECG();
                     break;
                 case 4:
-                    searchEMGByName();
+                  //  searchEMGByName();
                     break;
                 case 5:
-                    searchECGByName();
+                  //  searchECGByName();
                     break;
                 case 6:
                     String username = userManager.updateUsername(patientName);
@@ -586,6 +596,13 @@ public class Main {
     public static String getPassword() {
         return getPassword(8);
     }
-
+    
+    private static void releaseResourcesServer(ServerSocket serverSocket) {
+        try {
+            serverSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ServerThreadsClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
 
