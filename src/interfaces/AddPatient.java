@@ -23,7 +23,7 @@ public class AddPatient extends javax.swing.JFrame {
     
     public AddPatient(String name, String Age, String Weigth, String Height, String Gender){
         initComponents();
-      
+        
     }
 
     /**
@@ -183,10 +183,15 @@ public class AddPatient extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error, choose it again", "ERROR", JOptionPane.ERROR_MESSAGE);
             error = true;
         }
-            
-        Patient patient = new Patient(nombre, age, weight, height, gender);
-       
+        DoctorMenuInterface.patient.setAge(age);
+        DoctorMenuInterface.patient.setFull_name(nombre);
+        DoctorMenuInterface.patient.setWeight(weight);
+        DoctorMenuInterface.patient.setHeight(height);
+        DoctorMenuInterface.patient.setGender(gender);
         
+        DoctorMenuInterface c = new DoctorMenuInterface();
+        JOptionPane.showMessageDialog(c, "Patient Created");
+        setVisible(false);
     
     }//GEN-LAST:event_jButton1ActionPerformed
 

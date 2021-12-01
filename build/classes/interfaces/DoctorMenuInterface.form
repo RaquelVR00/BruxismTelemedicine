@@ -29,7 +29,13 @@
                       <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="searchbyname" min="-2" max="-2" attributes="0"/>
-                          <Component id="addpat" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="createpat" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                              <Component id="addpat" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <Component id="searchEMG" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="searchECG" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="searchform" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -44,7 +50,7 @@
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="254" max="32767" attributes="0"/>
+              <EmptySpace pref="115" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -54,7 +60,11 @@
               <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-              <Component id="addpat" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="createpat" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="addpat" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="searchbyname" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -82,12 +92,12 @@
         <Property name="text" type="java.lang.String" value="Hi! Doc"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="addpat">
+    <Component class="javax.swing.JButton" name="createpat">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Add Patient"/>
+        <Property name="text" type="java.lang.String" value="Create Patient"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addpatActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createpatActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
@@ -97,11 +107,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Search Patient by Name"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchbynameActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="searchEMG">
       <Properties>
         <Property name="text" type="java.lang.String" value="Search EMG by Name"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchEMGActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="searchECG">
       <Properties>
@@ -120,6 +136,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Delete Patient"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deletepatActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="changeusername">
       <Properties>
@@ -134,6 +153,19 @@
     <Component class="javax.swing.JButton" name="back">
       <Properties>
         <Property name="text" type="java.lang.String" value="Go back"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="addpat">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Add Patient"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addpatActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="then"/>
       </Properties>
     </Component>
   </SubComponents>

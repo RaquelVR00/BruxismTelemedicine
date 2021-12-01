@@ -4,19 +4,56 @@
  */
 package interfaces;
 
+import db.interfaces.DBManager;
+import db.interfaces.DoctorManager;
+import db.interfaces.EcgManager;
+import db.interfaces.EmgManager;
+import db.interfaces.PatientManager;
+import db.interfaces.UserManager;
+import db.jpa.JPAUserManager;
+import db.sqlite.SQLiteManager;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import pojos.Emg;
 import pojos.Patient;
+import pojos.users.Role;
+import pojos.users.User;
+import static ui.Main.getPassword;
+import static ui.Main.searchEMGByName_patient;
 
 /**
  *
  * @author gustavo
  */
 public class DoctorMenuInterface extends javax.swing.JFrame {
-
+    public static Patient patient = new Patient();
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Each time dates are added
+    private static BufferedReader reader; // To read from the console
+    private static DBManager dbManager;
+    private static PatientManager patientManager;
+    private static DoctorManager doctorManager;
+    private static EmgManager emgManager;
+    private static EcgManager ecgManager;
+    private static UserManager userManager;
+    private static String doctorName = "";
+    private static String patientName = "";
+    public static String numbers = "0123456789";
+    public static String caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static String low_case = "abcdefghijklmnopqrstuvwxyz";
     /**
      * Creates new form DoctorMenuInterface
      */
     public DoctorMenuInterface() {
         initComponents();
+        
     }
     
     /**
@@ -29,7 +66,7 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        addpat = new javax.swing.JButton();
+        createpat = new javax.swing.JButton();
         searchbyname = new javax.swing.JButton();
         searchEMG = new javax.swing.JButton();
         searchECG = new javax.swing.JButton();
@@ -38,21 +75,33 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
         changeusername = new javax.swing.JButton();
         changepassword = new javax.swing.JButton();
         back = new javax.swing.JButton();
+        addpat = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Hi! Doc");
 
-        addpat.setText("Add Patient");
-        addpat.addActionListener(new java.awt.event.ActionListener() {
+        createpat.setText("Create Patient");
+        createpat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addpatActionPerformed(evt);
+                createpatActionPerformed(evt);
             }
         });
 
         searchbyname.setText("Search Patient by Name");
+        searchbyname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchbynameActionPerformed(evt);
+            }
+        });
 
         searchEMG.setText("Search EMG by Name");
+        searchEMG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchEMGActionPerformed(evt);
+            }
+        });
 
         searchECG.setText("Search ECG by Name");
 
@@ -64,12 +113,26 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
         });
 
         deletepat.setText("Delete Patient");
+        deletepat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletepatActionPerformed(evt);
+            }
+        });
 
         changeusername.setText("Change Username");
 
         changepassword.setText("Change Password");
 
         back.setText("Go back");
+
+        addpat.setText("Add Patient");
+        addpat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addpatActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("then");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -81,7 +144,12 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
                         .addGap(65, 65, 65)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(searchbyname)
-                            .addComponent(addpat)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(createpat)
+                                .addGap(26, 26, 26)
+                                .addComponent(jLabel2)
+                                .addGap(29, 29, 29)
+                                .addComponent(addpat))
                             .addComponent(searchEMG)
                             .addComponent(searchECG)
                             .addComponent(searchform)
@@ -92,7 +160,7 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(81, 81, 81)
                         .addComponent(jLabel1)))
-                .addContainerGap(254, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,7 +168,10 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
                 .addGap(51, 51, 51)
                 .addComponent(jLabel1)
                 .addGap(41, 41, 41)
-                .addComponent(addpat)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(createpat)
+                    .addComponent(addpat)
+                    .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(searchbyname)
                 .addGap(18, 18, 18)
@@ -127,15 +198,161 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_searchformActionPerformed
 
+    private void createpatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createpatActionPerformed
+      
+            // TODO add your handling code here:
+            AddPatient addpat = new AddPatient();
+            addpat.setVisible(true);
+          
+        
+          
+    }//GEN-LAST:event_createpatActionPerformed
+
     private void addpatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addpatActionPerformed
-        // TODO add your handling code here:
-        AddPatient addpat = new AddPatient();
-        addpat.setVisible(true);
-        
-        Patient patient;
-        
+        try {
+            // TODO add your handling code here:
+            String username;
+            
+            boolean distinctUser = false;
+            do {
+           
+                username = JOptionPane.showInputDialog("Introduce the patient's Username");
+                List<String> existUsernames = new ArrayList<String>();
+                existUsernames = patientManager.getUsernames();
+                if (existUsernames.contains(username)) {
+                    distinctUser = true;
+                } else {
+                    distinctUser = false;
+                }
+            } while (distinctUser);
+            
+            String UserName = username;
+            
+            String password = getPassword();
+            //System.out.println("The default password for a patient is: " + password);
+            DoctorMenuInterface c = new DoctorMenuInterface();
+            JOptionPane.showMessageDialog(c, "The default password for a patient is: " + password);
+            // Create the password's hash
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] hash = md.digest();
+            int roleId = 1;
+            // Get the chosen role from the database
+            Role chosenRole = userManager.getRole(roleId);
+            // Create the user and store it
+            User user = new User(UserName, hash, chosenRole);
+            userManager.createUser(user);
+            patient.setNameuser(UserName);
+            patientManager.add(patient);
+            int patientId=dbManager.getLastId();
+            System.out.println(patientId);
+            int doctorId = doctorManager.getId(doctorName);
+            System.out.println(doctorId);
+            doctorManager.asign(doctorId, patientId);
+            JOptionPane.showMessageDialog(c, "Patient Added");
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(DoctorMenuInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_addpatActionPerformed
+
+    private void deletepatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletepatActionPerformed
+        // TODO add your handling code here:
+        String  name = JOptionPane.showInputDialog("Introduce the patient's name that you want to delete and remember the ID");
+        List<Patient> patientList = patientManager.searchByName(name);
+        for (Patient patient : patientList) {
+            JOptionPane.showMessageDialog(null, patient);
+        } 
+        // System.out.println("Choose a worker to delete, type its ID: ");
+        Integer patient_id = new Integer(0);
+        boolean wrongtext = false;
+        do {
+            String  id = JOptionPane.showInputDialog("Introduce the patient's ID");
+            do {
+                    try {
+                            patient_id = Integer.parseInt(reader.readLine());
+                            wrongtext = false;
+                    } catch (NumberFormatException ex) {
+                            wrongtext = true;
+                            DoctorMenuInterface c = new DoctorMenuInterface();
+                            JOptionPane.showMessageDialog(c, "It's not an int");
+                    } catch (IOException ex) {
+                    Logger.getLogger(DoctorMenuInterface.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } while (wrongtext);
+        } while (patientManager.getPatient(patient_id) == null);
+        Patient patient = patientManager.getPatient(patient_id);
+
+        String name2 = patient.getNameuser();
+        System.out.println(name2);
+        userManager.deletePatient(name2);
+        patientManager.delete(patient_id);
+        DoctorMenuInterface c = new DoctorMenuInterface();
+        JOptionPane.showMessageDialog(c, "Deletion completed");
+    }//GEN-LAST:event_deletepatActionPerformed
+
+    private void searchbynameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbynameActionPerformed
+        // TODO add your handling code here:
+        String  name = JOptionPane.showInputDialog("Introduce the patient's name");
+        List<Patient> patientList = patientManager.searchByName(name);
+        for (Patient patient : patientList) {
+            JOptionPane.showMessageDialog(null, patient);
+        }
+    }//GEN-LAST:event_searchbynameActionPerformed
+
+    private void searchEMGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchEMGActionPerformed
+        // TODO add your handling code here:
+        String  name = JOptionPane.showInputDialog("Introduce the patient's name that you want to search and remember the ID");
+        List<Patient> patientList = patientManager.searchByName(name);
+        for (Patient patient : patientList) {
+            JOptionPane.showMessageDialog(null, patient);
+        } 
+        Integer patient_id = new Integer(0);
+        boolean wrongtext = false;
+        do {
+            System.out.println("Choose an id: ");
+            do {
+                try {
+                    String  id = JOptionPane.showInputDialog("Introduce the patient's ID");
+                    wrongtext = false;
+                } catch (NumberFormatException ex) {
+                    wrongtext = true;
+                    DoctorMenuInterface c = new DoctorMenuInterface();
+                    JOptionPane.showMessageDialog(c, "It's not an int");
+                }
+            } while (wrongtext);
+        } while (emgManager.getEMGpatient(patient_id) == null);
+        List<Emg> emgList = emgManager.getEMGpatient(patient_id);
+        for (Emg emg : emgList) {
+            JOptionPane.showMessageDialog(null, emg);
+        }
+        
+        String  month = JOptionPane.showInputDialog("Introduce the month of the EMG");
+        String day = JOptionPane.showInputDialog("Introduce the patient's name that you want to search and remember the ID");
+        int day2 = Integer.parseInt(day);
+        
+        String name_emg = day2 + month ;
+        String name_select;
+        for (Emg emg  : emgList) {
+             name_select = emg.getName_emg();
+             if (name_select.contains(name_emg)){
+                System.out.println(name_select);
+             }
+        } 
+        
+        System.out.println("Introduce the number of the emg");
+        String  number = JOptionPane.showInputDialog("Introduce the number of the EMG");
+        //String number2 = Integer.parseInt(number);
+        //name_emg = day + month + "_" + position ; 
+        for (Emg emg : emgList){
+            name_select = emg.getName_emg();
+             if (name_select == name_emg){
+                System.out.println(emg);
+             }
+        }
+        
+    
+    }//GEN-LAST:event_searchEMGActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,7 +380,16 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(DoctorMenuInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
+        dbManager = new SQLiteManager();
+        dbManager.connect();
+        patientManager = dbManager.getPatientManager();
+        doctorManager = dbManager.getDoctorManager();
+        emgManager = dbManager.getEmgManager();
+        ecgManager = dbManager.getEcgManager();
+        dbManager.createTables();
+        userManager = new JPAUserManager();
+        userManager.connect();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -173,12 +399,14 @@ public class DoctorMenuInterface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public static javax.swing.JButton addpat;
+    private javax.swing.JButton addpat;
     private javax.swing.JButton back;
     private javax.swing.JButton changepassword;
     private javax.swing.JButton changeusername;
+    public static javax.swing.JButton createpat;
     private javax.swing.JButton deletepat;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JButton searchECG;
     private javax.swing.JButton searchEMG;
     private javax.swing.JButton searchbyname;
