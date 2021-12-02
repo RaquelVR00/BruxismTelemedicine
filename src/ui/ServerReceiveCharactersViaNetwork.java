@@ -22,10 +22,11 @@ public class ServerReceiveCharactersViaNetwork {
         ServerSocket serverSocket = new ServerSocket(9000);
         try {
             while (true) {
+                executeMenu();
                 //This executes when we have a client
                 Socket socket = serverSocket.accept();
                 //new ServerThreadsClient(socket).executeMenu();
-                executeMenu();
+                //executeMenu();
                 new Thread(new ServerThreadsClient(socket)).start();
                 
                 
